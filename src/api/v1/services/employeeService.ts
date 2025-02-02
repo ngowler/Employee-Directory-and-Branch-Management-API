@@ -43,3 +43,12 @@ export const updateEmployee = async (id: string, employee: {
     employees[index] = { id, ...employee };
     return employees[index];
 };
+
+export const deleteEmployee = async (id: string): Promise<void> => {
+    const index: number = employees.findIndex((i) => i.id === id);
+    if (index === -1) {
+        throw new Error(`Employee with ID ${id} not found`)
+    }
+
+    employees.splice(index, 1);
+};

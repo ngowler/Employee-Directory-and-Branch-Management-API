@@ -57,3 +57,17 @@ export const updateEmployee = async (
         next(error);
     }
 };
+
+export const deleteEmployee = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        await employeeService.deleteEmployee(req.params.id);
+
+        res.status(200).json({ message: "Employee Deleted" });
+    } catch (error) {
+        next(error);
+    }
+};
