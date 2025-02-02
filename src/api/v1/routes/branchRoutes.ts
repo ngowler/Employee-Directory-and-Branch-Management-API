@@ -5,5 +5,6 @@ const router: Router = express.Router();
 
 router.post("/", branchController.createBranch);
 router.get("/", branchController.getAllBranches);
+router.get("/:id", branchController.getBranchById);
 
 export default router;

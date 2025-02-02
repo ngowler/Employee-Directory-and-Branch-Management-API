@@ -29,3 +29,17 @@ export const getAllBranches = async (
         next(error);
     }
 };
+
+export const getBranchById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const branch: Branch = await branchService.getBranchById(req.params.id);
+
+        res.status(200).json({ message: "Branch Retrieved", data: branch });
+    } catch (error) {
+        next(error);
+    }
+};
