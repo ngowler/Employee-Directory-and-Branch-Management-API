@@ -85,4 +85,27 @@ describe("Branch Controller", () => {
             });
         });
     });
+
+    describe("updateBranch", () => {
+        it("should handle successful operation", async () => {
+            const mockBranch: Branch = { 
+                id: "1",
+                name: "Test Name",
+                address: "Test Address",
+                phone: "Test Phone",
+            };
+            (branchService.updateBranch as jest.Mock).mockResolvedValue(mockBranch);
+
+            await branchController.updateBranch(
+                mockReq as Request,
+                mockRes as Response,
+                mockNext,
+            );
+            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                message: "Branch Updated",
+                data: mockBranch,
+            });
+        });
+    });
 });

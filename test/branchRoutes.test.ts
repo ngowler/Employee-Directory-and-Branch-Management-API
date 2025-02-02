@@ -3,13 +3,15 @@ import app from "../src/app";
 import {
     createBranch,
     getAllBranches,
-    getBranchById, }
+    getBranchById,
+    updateBranch, }
     from "../src/api/v1/controllers/branchController"
 
 jest.mock("../src/api/v1/controllers/branchController", () => ({
     createBranch: jest.fn((req, res) => res.status(201).send()),
     getAllBranches: jest.fn((req, res) => res.status(201).send()),
     getBranchById: jest.fn((req, res) => res.status(201).send()),
+    updateBranch: jest.fn((req, res) => res.status(201).send()),
 }));
 
 describe("Branch Routes", () => {
@@ -45,6 +47,24 @@ describe("Branch Routes", () => {
         it("should call getBranchById controller", async () => {
             await request(app).get("/api/v1/branch/1");
             expect(getBranchById).toHaveBeenCalled();
+        });
+    });
+
+    describe("PUT /api/v1/branch/:id", () => {
+        it("should call updateBranch controller", async () => {
+            interface mockBranch {
+                name: string;
+                address: string;
+                phone: string;
+            }
+            const mockBranch: mockBranch = {
+                name: "Test Name",
+                address: "Test Address",
+                phone: "Test Phone",
+            };
+
+            await request(app).put("/api/v1/branch/1").send(mockBranch);
+            expect(updateBranch).toHaveBeenCalled();
         });
     });
 });
