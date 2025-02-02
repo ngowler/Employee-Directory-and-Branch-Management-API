@@ -79,9 +79,23 @@ export const getEmployeesByBranch = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const employeesInBranch: Employee[] = await employeeService.getEmployeesByBranch(req.params.id);
+        const employeesInBranch: Employee[] = await employeeService.getEmployeesByBranch(req.params.branchId);
 
         res.status(200).json({ message: "Employees Retrieved", data: employeesInBranch });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getEmployeesByDepartment = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const employeesInDepartment: Employee[] = await employeeService.getEmployeesByDepartment(req.params.department);
+
+        res.status(200).json({ message: "Employees Retrieved", data: employeesInDepartment });
     } catch (error) {
         next(error);
     }

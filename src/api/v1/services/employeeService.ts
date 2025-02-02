@@ -122,3 +122,27 @@ export const getEmployeesByBranch = async (branchId: string): Promise<Employee[]
 
     return employeesInBranch;
 };
+
+/**
+ * @openapi
+ * /employee/department/{branch}:
+ *   get:
+ *     summary: Gets an employee by department
+ *     tags: [Employee]
+ *     responses:
+ *       200:
+ *         description: Gets an employee by department
+ */
+export const getEmployeesByDepartment = async (department: string): Promise<Employee[]> => {
+    const lowerCaseDepartment: String = department.toLowerCase();
+
+    const employeesInDepartment: Employee[] = employees.filter((i) => 
+        i.department && i.department.toLowerCase() === lowerCaseDepartment
+    );
+
+    if (employeesInDepartment.length === 0) {
+        throw new Error(`Department ${department} not found`);
+    }
+
+    return employeesInDepartment;
+};
