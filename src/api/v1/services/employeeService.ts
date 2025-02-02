@@ -35,7 +35,7 @@ export const createEmployee = async (employee: {
  *         description: Gets all employees
  */
 export const getAllEmployees = async (): Promise<Employee[]> => {
-    return employees
+    return employees;
 };
 
 /**

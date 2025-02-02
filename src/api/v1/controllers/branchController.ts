@@ -15,3 +15,17 @@ export const createBranch = async (
         next(error);
     }
 };
+
+export const getAllBranches = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const branches: Branch[] = await branchService.getAllBranches();
+
+        res.status(200).json({ message: "Branches Retrieved", data: branches });
+    } catch (error) {
+        next(error);
+    }
+};

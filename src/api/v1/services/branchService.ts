@@ -20,3 +20,17 @@ export const createBranch = async (branch: {
     branches.push(newBranch);
     return newBranch;
 };
+
+/**
+ * @openapi
+ * /branch:
+ *   get:
+ *     summary: Gets all branches
+ *     tags: [Branch]
+ *     responses:
+ *       200:
+ *         description: Gets all branches
+ */
+export const getAllBranches = async (): Promise<Branch[]> => {
+    return branches;
+};
