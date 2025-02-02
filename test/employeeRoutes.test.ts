@@ -4,7 +4,8 @@ import {
     createEmployee,
     getAllEmployees,
     getEmployeeById,
-    updateEmployee, } 
+    updateEmployee,
+    deleteEmployee, } 
     from "../src/api/v1/controllers/employeeController"
 
 jest.mock("../src/api/v1/controllers/employeeController", () => ({
@@ -12,6 +13,7 @@ jest.mock("../src/api/v1/controllers/employeeController", () => ({
     getAllEmployees: jest.fn((req, res) => res.status(200).send()),
     getEmployeeById: jest.fn((req, res) => res.status(200).send()),
     updateEmployee: jest.fn((req, res) => res.status(200).send()),
+    deleteEmployee: jest.fn((req, res) => res.status(200).send()),
 }));
 
 describe("Employee Routes", () => {
@@ -77,6 +79,13 @@ describe("Employee Routes", () => {
 
             await request(app).put("/api/v1/employees/1").send(mockEmployee);
             expect(updateEmployee).toHaveBeenCalled();
+        });
+    });
+
+    describe("Delete /api/v1/employees/:id", () => {
+        it("should call deleteEmployee controller", async () => {
+            await request(app).delete("/api/v1/employees/1");
+            expect(deleteEmployee).toHaveBeenCalled();
         });
     });
 });

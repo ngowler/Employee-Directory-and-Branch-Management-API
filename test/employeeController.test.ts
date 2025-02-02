@@ -120,4 +120,18 @@ describe("Employeee Controller", () => {
             });
         });
     });
+
+    describe("deleteEmployee", () => {
+        it("should handle successful operation", async () => {
+            
+            employeeService.deleteEmployee as jest.Mock;
+
+            await employeeController.deleteEmployee(
+                mockReq as Request,
+                mockRes as Response,
+                mockNext,
+            );
+            expect(mockRes.status).toHaveBeenCalledWith(200);
+        });
+    });
 });
