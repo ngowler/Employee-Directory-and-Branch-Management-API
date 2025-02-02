@@ -39,4 +39,27 @@ describe("Branch Controller", () => {
             });
         });
     });
+
+    describe("getAllBranches", () => {
+        it("should handle successful operation", async () => {
+            const mockBranches: Branch[] = [{ 
+                id: "1",
+                name: "Test Name",
+                address: "Test Address",
+                phone: "Test Phone",
+            }];
+            (branchService.getAllBranches as jest.Mock).mockResolvedValue(mockBranches);
+    
+            await branchController.getAllBranches(
+                mockReq as Request,
+                mockRes as Response,
+                mockNext,
+            );
+            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                message: "Branches Retrieved",
+                data: mockBranches,
+            });
+        });
+    });
 });
