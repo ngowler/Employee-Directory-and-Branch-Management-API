@@ -19,6 +19,9 @@ export const createEmployee = async (employee: {
     phone: string,
     branchId: string,
 }): Promise<Employee> => {
+    if (!employee.name || !employee.position || !employee.department || !employee.email || !employee.phone || !employee.branchId) {
+        throw new Error("All fields (name, position, department, email, phone, branchId) must be provided");
+    }
     const newEmployee: Employee = { id: Date.now().toString(), ...employee };
     employees.push(newEmployee);
     return newEmployee;
@@ -68,20 +71,26 @@ export const getEmployeeById = async (id: string): Promise<Employee> => {
  *         description: Updates an employee
  */
 export const updateEmployee = async (id: string, employee: {
-    name: string,
-    position: string,
-    department: string,
-    email: string,
-    phone: string,
-    branchId: string,
+    name?: string,
+    position?: string,
+    department?: string,
+    email?: string,
+    phone?: string,
+    branchId?: string,
 }): Promise<Employee> => {
     const index: number = employees.findIndex((i) => i.id === id);
     if (index === -1) {
         throw new Error(`Employee with ID ${id} not found`)
     }
 
-    employees[index] = { id, ...employee };
-    return employees[index];
+    const currentEmployee: Employee = employees[index];
+
+    const updatedEmployee: Employee = { 
+        ...currentEmployee,
+        ...employee 
+    };
+
+    return updatedEmployee;
 };
 
 /**

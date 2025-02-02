@@ -16,6 +16,9 @@ export const createBranch = async (branch: {
     address: string,
     phone: string,
 }): Promise<Branch> => {
+    if (!branch.name || !branch.address || !branch.phone) {
+        throw new Error("All fields (name, address, phone) must be provided");
+    }
     const newBranch: Branch = { id: Date.now().toString(), ...branch };
     branches.push(newBranch);
     return newBranch;
@@ -65,17 +68,23 @@ export const getBranchById = async (id: string): Promise<Branch> => {
  *         description: Updates a branch
  */
 export const updateBranch = async (id: string, branch: {
-    name: string,
-    address: string,
-    phone: string,
+    name?: string,
+    address?: string,
+    phone?: string,
 }): Promise<Branch> => {
     const index: number = branches.findIndex((i) => i.id === id);
     if (index === -1) {
         throw new Error(`Branch with ID ${id} not found`)
     }
 
-    branches[index] = { id, ...branch };
-    return branches[index];
+    const currentBranch: Branch = branches[index];
+
+    const updatedBranch: Branch = {
+        ...currentBranch,
+        ...branch
+    };
+
+    return updatedBranch;
 };
 
 /**

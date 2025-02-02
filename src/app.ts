@@ -6,6 +6,7 @@ import employeeRoutes from "./api/v1/routes/employeeRoutes"
 import branchRoutes from "./api/v1/routes/branchRoutes"
 
 const app: Express = express();
+app.use(express.json());
 
 setupSwagger(app);
 // Use morgan for HTTP request logging
