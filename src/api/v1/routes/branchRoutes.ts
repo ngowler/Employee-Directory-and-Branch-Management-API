@@ -7,5 +7,6 @@ router.post("/", branchController.createBranch);
 router.get("/", branchController.getAllBranches);
 router.get("/:id", branchController.getBranchById);
 router.put("/:id", branchController.updateBranch);
+router.delete("/:id", branchController.deleteBranch);
 
 export default router;

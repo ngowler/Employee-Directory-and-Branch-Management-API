@@ -77,3 +77,22 @@ export const updateBranch = async (id: string, branch: {
     branches[index] = { id, ...branch };
     return branches[index];
 };
+
+/**
+ * @openapi
+ * /branch/{id}:
+ *   delete:
+ *     summary: Deletes a branch
+ *     tags: [Branch]
+ *     responses:
+ *       200:
+ *         description: Deletes a branch
+ */
+export const deleteBranch = async (id: string): Promise<void> => {
+    const index: number = branches.findIndex((i) => i.id === id);
+    if (index === -1) {
+        throw new Error(`Branch with ID ${id} not found`)
+    }
+
+    branches.splice(index, 1);
+};
