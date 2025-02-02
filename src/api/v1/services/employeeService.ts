@@ -17,3 +17,12 @@ export const createEmployee = async (employee: {
 export const getAllEmployees = async (): Promise<Employee[]> => {
     return employees
 };
+
+export const getEmployeeById = async (id: string): Promise<Employee> => {
+    const index: number = employees.findIndex((i) => i.id === id);
+    if (index === -1) {
+        throw new Error(`Employee with ID ${id} not found`)
+    }
+
+    return employees[index];
+};

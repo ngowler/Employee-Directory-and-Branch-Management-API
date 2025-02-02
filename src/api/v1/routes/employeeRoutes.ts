@@ -5,5 +5,6 @@ const router: Router = express.Router();
 
 router.post("/", employeeController.createEmployee);
 router.get("/", employeeController.getAllEmployees);
+router.get("/:id", employeeController.getEmployeeById);
 
 export default router;
