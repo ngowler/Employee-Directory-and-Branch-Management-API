@@ -1,13 +1,6 @@
 import request from "supertest";
 import app from "../src/app";
-import {
-    createEmployee,
-    getAllEmployees,
-    getEmployeeById,
-    updateEmployee,
-    deleteEmployee,
-    getEmployeesByBranch, } 
-    from "../src/api/v1/controllers/employeeController"
+import * as employeeController from "../src/api/v1/controllers/employeeController";
 
 jest.mock("../src/api/v1/controllers/employeeController", () => ({
     createEmployee: jest.fn((req, res) => res.status(201).send()),
@@ -16,6 +9,7 @@ jest.mock("../src/api/v1/controllers/employeeController", () => ({
     updateEmployee: jest.fn((req, res) => res.status(200).send()),
     deleteEmployee: jest.fn((req, res) => res.status(200).send()),
     getEmployeesByBranch: jest.fn((req, res) => res.status(200).send()),
+    getEmployeesByDepartment: jest.fn((req, res) => res.status(200).send()),
 }));
 
 describe("Employee Routes", () => {
@@ -42,21 +36,21 @@ describe("Employee Routes", () => {
                 branchId: "Test Branch Id",
             };
             await request(app).post("/api/v1/employee").send(mockNewEmployee);
-            expect(createEmployee).toHaveBeenCalled();
+            expect(employeeController.createEmployee).toHaveBeenCalled();
         });
     });
 
     describe("GET /api/v1/employee", () => {
         it("should call getAllEmployees controller", async () => {
             await request(app).get("/api/v1/employee");
-            expect(getAllEmployees).toHaveBeenCalled();
+            expect(employeeController.getAllEmployees).toHaveBeenCalled();
         });
     });
 
     describe("GET /api/v1/employee/:id", () => {
         it("should call getEmployeeById controller", async () => {
             await request(app).get("/api/v1/employee/1");
-            expect(getEmployeeById).toHaveBeenCalled();
+            expect(employeeController.getEmployeeById).toHaveBeenCalled();
         });
     });
 
@@ -80,14 +74,14 @@ describe("Employee Routes", () => {
             };
 
             await request(app).put("/api/v1/employee/1").send(mockEmployee);
-            expect(updateEmployee).toHaveBeenCalled();
+            expect(employeeController.updateEmployee).toHaveBeenCalled();
         });
     });
 
     describe("DELETE /api/v1/employee/:id", () => {
         it("should call deleteEmployee controller", async () => {
             await request(app).delete("/api/v1/employee/1");
-            expect(deleteEmployee).toHaveBeenCalled();
+            expect(employeeController.deleteEmployee).toHaveBeenCalled();
         });
     });
 
@@ -95,7 +89,14 @@ describe("Employee Routes", () => {
     describe("GET /api/v1/employee/branch/:branchId", () => {
         it("should call getEmployeesByBranch controller", async () => {
             await request(app).get("/api/v1/employee/branch/1");
-            expect(getEmployeesByBranch).toHaveBeenCalled();
+            expect(employeeController.getEmployeesByBranch).toHaveBeenCalled();
+        });
+    });
+
+    describe("GET /api/v1/employee/department/:department", () => {
+        it("should call getEmployeesByDepartment controller", async () => {
+            await request(app).get("/api/v1/employee/department/Test Department");
+            expect(employeeController.getEmployeesByDepartment).toHaveBeenCalled();
         });
     });
 });

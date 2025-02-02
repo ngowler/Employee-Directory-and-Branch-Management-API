@@ -164,4 +164,30 @@ describe("Employeee Controller", () => {
             });
         });
     });
+
+    describe("getEmployeesByDepartment", () => {
+        it("should handle successful operation", async () => {
+            const mockEmployees: Employee[] = [{ 
+                id: "1",
+                name: "Test Name",
+                position: "Test Position",
+                department: "Test Department",
+                email: "Test Email",
+                phone: "Test Phone",
+                branchId: "Test Branch Id",
+            }];
+            (employeeService.getEmployeesByDepartment as jest.Mock).mockResolvedValue(mockEmployees);
+
+            await employeeController.getEmployeesByDepartment(
+                mockReq as Request,
+                mockRes as Response,
+                mockNext,
+            );
+            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                message: "Employees Retrieved",
+                data: mockEmployees,
+            });
+        });
+    });
 });

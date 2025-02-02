@@ -106,7 +106,7 @@ export const deleteEmployee = async (id: string): Promise<void> => {
 //Additional Endpoints
 /**
  * @openapi
- * /employee/branch/{branch}:
+ * /employee/branch/{branchId}:
  *   get:
  *     summary: Gets an employee by branch
  *     tags: [Employee]
@@ -125,7 +125,7 @@ export const getEmployeesByBranch = async (branchId: string): Promise<Employee[]
 
 /**
  * @openapi
- * /employee/department/{branch}:
+ * /employee/department/{department}:
  *   get:
  *     summary: Gets an employee by department
  *     tags: [Employee]
