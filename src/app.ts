@@ -24,6 +24,6 @@ app.get('/health', (req, res) => {
     res.status(200).send('Server is healthy');
 });
 
-app.use("/api/v1/employees", employeeRoutes)
+app.use("/api/v1/employee", employeeRoutes)
 
 export default app;

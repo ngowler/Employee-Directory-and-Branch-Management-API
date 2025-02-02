@@ -21,7 +21,7 @@ describe("Employee Routes", () => {
         jest.clearAllMocks();
     });
 
-    describe("POST /api/v1/employees", () => {
+    describe("POST /api/v1/employee", () => {
         it("should call createEmployee controller", async () => {
             interface NewEmployee {
                 name: string;
@@ -39,26 +39,26 @@ describe("Employee Routes", () => {
                 phone: "Test Phone",
                 branchId: "Test Branch Id",
             };
-            await request(app).post("/api/v1/employees").send(mockNewEmployee);
+            await request(app).post("/api/v1/employee").send(mockNewEmployee);
             expect(createEmployee).toHaveBeenCalled();
         });
     });
 
-    describe("GET /api/v1/employees", () => {
+    describe("GET /api/v1/employee", () => {
         it("should call getAllEmployees controller", async () => {
-            await request(app).get("/api/v1/employees");
+            await request(app).get("/api/v1/employee");
             expect(getAllEmployees).toHaveBeenCalled();
         });
     });
 
-    describe("GET /api/v1/employees/:id", () => {
+    describe("GET /api/v1/employee/:id", () => {
         it("should call getEmployeeById controller", async () => {
-            await request(app).get("/api/v1/employees/1");
+            await request(app).get("/api/v1/employee/1");
             expect(getEmployeeById).toHaveBeenCalled();
         });
     });
 
-    describe("PUT /api/v1/employees/:id", () => {
+    describe("PUT /api/v1/employee/:id", () => {
         it("should call updateEmployee controller", async () => {
             interface MockEmployee {
                 name: string;
@@ -77,14 +77,14 @@ describe("Employee Routes", () => {
                 branchId: "Test Branch Id",
             };
 
-            await request(app).put("/api/v1/employees/1").send(mockEmployee);
+            await request(app).put("/api/v1/employee/1").send(mockEmployee);
             expect(updateEmployee).toHaveBeenCalled();
         });
     });
 
-    describe("Delete /api/v1/employees/:id", () => {
+    describe("Delete /api/v1/employee/:id", () => {
         it("should call deleteEmployee controller", async () => {
-            await request(app).delete("/api/v1/employees/1");
+            await request(app).delete("/api/v1/employee/1");
             expect(deleteEmployee).toHaveBeenCalled();
         });
     });
