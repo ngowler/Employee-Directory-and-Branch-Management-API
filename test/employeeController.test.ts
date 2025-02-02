@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as employeeController from "../src/api/v1/controllers/employeeController";
 import * as employeeService from "../src/api/v1/services/employeeService";
+import { Employee } from "src/api/v1/data/employeeData";
 
 jest.mock("../src/api/v1/services/employeeService");
 
@@ -18,7 +19,33 @@ describe("Employeee Controller", () => {
 
     describe("createEmployee", () => {
         it("should handle successful operation", async () => {
-            const mockNewEmployee = [{ 
+            const mockNewEmployee: Employee = { 
+                id: "1",
+                name: "Test Name",
+                position: "Test Position",
+                department: "Test Department",
+                email: "Test Email",
+                phone: "Test Phone",
+                branchId: "Test Branch Id",
+            };
+            (employeeService.createEmployee as jest.Mock).mockResolvedValue(mockNewEmployee);
+
+            await employeeController.createEmployee(
+                mockReq as Request,
+                mockRes as Response,
+                mockNext,
+            );
+            expect(mockRes.status).toHaveBeenCalledWith(201);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                message: "Employee Created",
+                data: mockNewEmployee,
+            });
+        });
+    });
+
+    describe("getAllEmployees", () => {
+        it("should handle successful operation", async () => {
+            const mockEmployees: Employee[] = [{ 
                 id: "1",
                 name: "Test Name",
                 position: "Test Position",
@@ -27,19 +54,17 @@ describe("Employeee Controller", () => {
                 phone: "Test Phone",
                 branchId: "Test Branch Id",
             }];
+            (employeeService.getAllEmployees as jest.Mock).mockResolvedValue(mockEmployees);
 
-            (employeeService.createEmployee as jest.Mock).mockResolvedValue(mockNewEmployee);
-
-            await employeeController.createEmployee(
+            await employeeController.getAllEmployees(
                 mockReq as Request,
                 mockRes as Response,
                 mockNext,
             );
-
-            expect(mockRes.status).toHaveBeenCalledWith(201);
+            expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith({
-                message: "Employee Created",
-                data: mockNewEmployee,
+                message: "Employees Retrieved",
+                data: mockEmployees,
             });
         });
     });
