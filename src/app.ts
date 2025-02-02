@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import setupSwagger from "../config/swagger";
 // Importing morgan
 import morgan from "morgan";
+import employeeRoutes from "./api/v1/routes/employeeRoutes"
 
 const app: Express = express();
 
@@ -22,5 +23,7 @@ app.use(morgan("combined"));
 app.get('/health', (req, res) => {
     res.status(200).send('Server is healthy');
 });
+
+app.use("/api/v1/employees", employeeRoutes)
 
 export default app;
