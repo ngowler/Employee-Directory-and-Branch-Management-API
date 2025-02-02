@@ -9,4 +9,7 @@ router.get("/:id", employeeController.getEmployeeById);
 router.put("/:id", employeeController.updateEmployee);
 router.delete("/:id", employeeController.deleteEmployee);
 
+//Additional Endpoints
+router.get("/:branchId", employeeController.getEmployeesByBranch);
+
 export default router;

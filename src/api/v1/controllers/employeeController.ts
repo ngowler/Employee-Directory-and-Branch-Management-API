@@ -71,3 +71,18 @@ export const deleteEmployee = async (
         next(error);
     }
 };
+
+//Additional Endpoints
+export const getEmployeesByBranch = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const employeesInBranch: Employee[] = await employeeService.getEmployeesByBranch(req.params.id);
+
+        res.status(200).json({ message: "Employees Retrieved", data: employeesInBranch });
+    } catch (error) {
+        next(error);
+    }
+};

@@ -102,3 +102,23 @@ export const deleteEmployee = async (id: string): Promise<void> => {
 
     employees.splice(index, 1);
 };
+
+//Additional Endpoints
+/**
+ * @openapi
+ * /employee/{branch}:
+ *   get:
+ *     summary: Gets an employee by branch
+ *     tags: [Employee]
+ *     responses:
+ *       200:
+ *         description: Gets an employee by branch
+ */
+export const getEmployeesByBranch = async (branchId: string): Promise<Employee[]> => {
+    const employeesInBranch = employees.filter((i) => i.branchId);
+    if (employeesInBranch.length === 0) {
+        throw new Error(`Branch ID ${branchId} not found`);
+    }
+
+    return employeesInBranch;
+};
