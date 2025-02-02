@@ -11,7 +11,9 @@ const swaggerOptions: swaggerJSDoc.Options = {
         },
     },
     apis: ["./src/app.ts",
-    "./src/api/v1/routes/*.ts"],
+    "./src/api/v1/routes/*.ts",
+    "./src/api/v1/controllers/*.ts",
+    "./src/api/v1/services/*.ts",]
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
