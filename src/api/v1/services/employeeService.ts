@@ -1,6 +1,16 @@
 import { Employee } from "../data/employeeData"
 import employees from "../data/employeeData"
 
+/**
+ * @openapi
+ * /:
+ *   post:
+ *     summary: Creates a new employee
+ *     tags: [Employee]
+ *     responses:
+ *       201:
+ *         description: Creates a new employee
+ */
 export const createEmployee = async (employee: {
     name: string,
     position: string,
@@ -14,10 +24,30 @@ export const createEmployee = async (employee: {
     return newEmployee;
 };
 
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     summary: Gets all employees
+ *     tags: [Employee]
+ *     responses:
+ *       200:
+ *         description: Gets all employees
+ */
 export const getAllEmployees = async (): Promise<Employee[]> => {
     return employees
 };
 
+/**
+ * @openapi
+ * /{id}:
+ *   get:
+ *     summary: Gets an employee by id
+ *     tags: [Employee]
+ *     responses:
+ *       200:
+ *         description: Gets an employee by id
+ */
 export const getEmployeeById = async (id: string): Promise<Employee> => {
     const index: number = employees.findIndex((i) => i.id === id);
     if (index === -1) {
@@ -27,6 +57,16 @@ export const getEmployeeById = async (id: string): Promise<Employee> => {
     return employees[index];
 };
 
+/**
+ * @openapi
+ * /{id}:
+ *   put:
+ *     summary: Updates an employee
+ *     tags: [Employee]
+ *     responses:
+ *       200:
+ *         description: Updates an employee
+ */
 export const updateEmployee = async (id: string, employee: {
     name: string,
     position: string,
@@ -44,6 +84,16 @@ export const updateEmployee = async (id: string, employee: {
     return employees[index];
 };
 
+/**
+ * @openapi
+ * /{id}:
+ *   delete:
+ *     summary: Deletes an employee
+ *     tags: [Employee]
+ *     responses:
+ *       200:
+ *         description: Deletes an employee
+ */
 export const deleteEmployee = async (id: string): Promise<void> => {
     const index: number = employees.findIndex((i) => i.id === id);
     if (index === -1) {
