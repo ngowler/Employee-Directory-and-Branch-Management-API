@@ -2,12 +2,14 @@ import request from "supertest";
 import app from "../src/app";
 import {
     createBranch,
-    getAllBranches, }
+    getAllBranches,
+    getBranchById, }
     from "../src/api/v1/controllers/branchController"
 
 jest.mock("../src/api/v1/controllers/branchController", () => ({
     createBranch: jest.fn((req, res) => res.status(201).send()),
     getAllBranches: jest.fn((req, res) => res.status(201).send()),
+    getBranchById: jest.fn((req, res) => res.status(201).send()),
 }));
 
 describe("Branch Routes", () => {
@@ -36,6 +38,13 @@ describe("Branch Routes", () => {
         it("should call getAllBranches controller", async () => {
             await request(app).get("/api/v1/branch");
             expect(getAllBranches).toHaveBeenCalled();
+        });
+    });
+
+    describe("GET /api/v1/branch/:id", () => {
+        it("should call getBranchById controller", async () => {
+            await request(app).get("/api/v1/branch/1");
+            expect(getBranchById).toHaveBeenCalled();
         });
     });
 });
