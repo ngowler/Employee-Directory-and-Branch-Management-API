@@ -124,7 +124,7 @@ export const deleteEmployee = async (id: string): Promise<void> => {
  *         description: Gets an employee by branch
  */
 export const getEmployeesByBranch = async (branchId: string): Promise<Employee[]> => {
-    const employeesInBranch = employees.filter((i) => i.branchId);
+    const employeesInBranch = employees.filter((i) => i.branchId === branchId);
     if (employeesInBranch.length === 0) {
         throw new Error(`Branch ID ${branchId} not found`);
     }
