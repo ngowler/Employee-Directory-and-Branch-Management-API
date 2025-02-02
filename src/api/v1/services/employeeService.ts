@@ -3,7 +3,7 @@ import employees from "../data/employeeData"
 
 /**
  * @openapi
- * /:
+ * /employee:
  *   post:
  *     summary: Creates a new employee
  *     tags: [Employee]
@@ -26,7 +26,7 @@ export const createEmployee = async (employee: {
 
 /**
  * @openapi
- * /:
+ * /employee:
  *   get:
  *     summary: Gets all employees
  *     tags: [Employee]
@@ -40,7 +40,7 @@ export const getAllEmployees = async (): Promise<Employee[]> => {
 
 /**
  * @openapi
- * /{id}:
+ * /employee/{id}:
  *   get:
  *     summary: Gets an employee by id
  *     tags: [Employee]
@@ -59,7 +59,7 @@ export const getEmployeeById = async (id: string): Promise<Employee> => {
 
 /**
  * @openapi
- * /{id}:
+ * /employee/{id}:
  *   put:
  *     summary: Updates an employee
  *     tags: [Employee]
@@ -86,7 +86,7 @@ export const updateEmployee = async (id: string, employee: {
 
 /**
  * @openapi
- * /{id}:
+ * /employee/{id}:
  *   delete:
  *     summary: Deletes an employee
  *     tags: [Employee]
