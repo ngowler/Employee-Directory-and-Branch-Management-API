@@ -43,3 +43,17 @@ export const getBranchById = async (
         next(error);
     }
 };
+
+export const updateBranch = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const updatedBranch: Branch = await branchService.updateBranch(req.params.id, req.body);
+
+        res.status(200).json({ message: "Branch Updated", data: updatedBranch });
+    } catch (error) {
+        next(error);
+    }
+};
