@@ -108,4 +108,21 @@ describe("Branch Controller", () => {
             });
         });
     });
+
+    describe("deleteBranch", () => {
+        it("should handle successful operation", async () => {
+            
+            branchService.deleteBranch as jest.Mock;
+
+            await branchController.deleteBranch(
+                mockReq as Request,
+                mockRes as Response,
+                mockNext,
+            );
+            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                message: "Branch Deleted",
+            });
+        });
+    });
 });
