@@ -2,12 +2,14 @@ import request from "supertest";
 import app from "../src/app";
 import {
     createEmployee,
-    getAllEmployees, } 
+    getAllEmployees,
+    getEmployeeById, } 
     from "../src/api/v1/controllers/employeeController"
 
 jest.mock("../src/api/v1/controllers/employeeController", () => ({
     createEmployee: jest.fn((req, res) => res.status(201).send()),
     getAllEmployees: jest.fn((req, res) => res.status(200).send()),
+    getEmployeeById: jest.fn((req, res) => res.status(200).send()),
 }));
 
 describe("Employee Routes", () => {
@@ -42,6 +44,13 @@ describe("Employee Routes", () => {
         it("should call getAllEmployees controller", async () => {
             await request(app).get("/api/v1/employees");
             expect(getAllEmployees).toHaveBeenCalled();
+        });
+    });
+
+    describe("GET /api/v1/employees/:id", () => {
+        it("should call getEmployeeById controller", async () => {
+            await request(app).get("/api/v1/employees/1");
+            expect(getEmployeeById).toHaveBeenCalled();
         });
     });
 });
