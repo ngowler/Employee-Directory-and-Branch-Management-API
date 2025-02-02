@@ -132,6 +132,9 @@ describe("Employeee Controller", () => {
                 mockNext,
             );
             expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.json).toHaveBeenCalledWith({
+                message: "Employee Deleted",
+            });
         });
     });
 });
