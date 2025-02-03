@@ -124,7 +124,7 @@ describe("Employeee Controller", () => {
     describe("deleteEmployee", () => {
         it("should handle successful operation", async () => {
             
-            employeeService.deleteEmployee as jest.Mock;
+            (employeeService.deleteEmployee as jest.Mock).mockResolvedValueOnce(true);
 
             await employeeController.deleteEmployee(
                 mockReq as Request,

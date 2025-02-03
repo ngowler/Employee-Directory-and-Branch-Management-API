@@ -1,5 +1,5 @@
-import branches, { Branch } from "../data/branchData"
-import branchs from "../data/branchData"
+import { Branch } from "../data/branchData"
+import branches from "../data/branchData"
 
 /**
  * @openapi

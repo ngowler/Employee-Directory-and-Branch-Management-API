@@ -112,7 +112,7 @@ describe("Branch Controller", () => {
     describe("deleteBranch", () => {
         it("should handle successful operation", async () => {
             
-            branchService.deleteBranch as jest.Mock;
+            (branchService.deleteBranch as jest.Mock).mockResolvedValueOnce(true);
 
             await branchController.deleteBranch(
                 mockReq as Request,
