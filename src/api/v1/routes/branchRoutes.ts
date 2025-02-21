@@ -1,9 +1,26 @@
+/**
+ * Branch Routes (branchRoutes.ts)
+ * 
+ * This file defines the routes for managing branches in our application.
+ * It uses the Express framework for routing and makes calls to the branch controller
+ * (branchController.ts) to handle the logic for each route.
+ */
 import express, { Router } from "express";
 import * as branchController from "../controllers/branchController"
+import { validateRequest } from "../middleware/validate";
+import {
+    postBranchSchema,
+    getBranchByIdSchema,
+    putBranchSchema,
+    deleteBranchSchema,
+} from "../validations/branchValidation";
 
 const router: Router = express.Router();
 
 /**
+ * @route POST /branch
+ * @description Create a new branch.
+ * 
  * @openapi
  * /branch:
  *   post:
@@ -16,6 +33,9 @@ const router: Router = express.Router();
 router.post("/", branchController.createBranch);
 
 /**
+ * @route GET /branch
+ * @description Get all branches.
+ * 
  * @openapi
  * /branch:
  *   get:
@@ -28,6 +48,9 @@ router.post("/", branchController.createBranch);
 router.get("/", branchController.getAllBranches);
 
 /**
+ * @route GET /branch/:id
+ * @description Get branch by id.
+ *
  * @openapi
  * /branch/{id}:
  *   get:
@@ -40,6 +63,9 @@ router.get("/", branchController.getAllBranches);
 router.get("/:id", branchController.getBranchById);
 
 /**
+ * @route PUT /branch/:id
+ * @description Update an existing branch.
+ * 
  * @openapi
  * /branch/{id}:
  *   put:
@@ -52,6 +78,9 @@ router.get("/:id", branchController.getBranchById);
 router.put("/:id", branchController.updateBranch);
 
 /**
+ * @route DELETE /:id
+ * @description Delete a branch.
+ *
  * @openapi
  * /branch/{id}:
  *   delete:

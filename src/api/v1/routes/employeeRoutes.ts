@@ -21,7 +21,7 @@ const router: Router = express.Router();
 
 /**
  * @route POST /employee
- * @description Create a new item.
+ * @description Create a new employee.
  * 
  * @openapi
  * /employee:
