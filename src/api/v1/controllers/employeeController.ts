@@ -1,3 +1,10 @@
+/**
+ * Employee Controller (employeeController.ts)
+ *
+ * This file defines functions (controllers) for handling incoming requests related to employees.
+ * These functions interact with the employee service (employeeService.ts) to perform the actual
+ * logic for CRUD operations on employees.
+ */
 import { Request, Response, NextFunction } from "express";
 import * as employeeService from "../services/employeeService";
 import { Employee } from "../data/employeeData"

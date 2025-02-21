@@ -1,3 +1,9 @@
+/**
+ * Employee Service (employeeService.ts)
+ *
+ * This file defines functions (services) for managing employee data. These functions
+ * currently store employees in-memory but could be extended to use a database.
+ */
 import { Employee } from "../data/employeeData"
 import employees from "../data/employeeData"
 

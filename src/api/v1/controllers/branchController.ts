@@ -1,3 +1,10 @@
+/**
+ * Branch Controller (branchController.ts)
+ *
+ * This file defines functions (controllers) for handling incoming requests related to branches.
+ * These functions interact with the branch service (branchService.ts) to perform the actual
+ * logic for CRUD operations on branches.
+ */
 import { Request, Response, NextFunction } from "express";
 import * as branchService from "../services/branchService";
 import { Branch } from "../data/branchData"
