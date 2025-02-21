@@ -3,7 +3,7 @@ import Joi, { ObjectSchema } from "joi";
 export const employeeSchema: ObjectSchema = Joi.object({
     id: Joi.string().optional().messages({
         "any.required": "ID is required",
-        "string.empty": "Employee ID cannot be empty"
+        "string.empty": "ID cannot be empty"
     }),
     name: Joi.string().required().messages({
         "any.required": "Name is required",
@@ -11,7 +11,7 @@ export const employeeSchema: ObjectSchema = Joi.object({
     }),
     position: Joi.string().required().messages({
         "any.required": "Position is required",
-        "string.empty": "Description cannot be empty",
+        "string.empty": "Position cannot be empty",
     }),
     department: Joi.number().required().messages({
         "any.required": "Department is required",
@@ -31,6 +31,4 @@ export const employeeSchema: ObjectSchema = Joi.object({
         "any.required": "Branch ID is required",
         "string.empty": "Branch ID cannot be empty",
     }),
-    createdAt: Joi.date(),
-    updatedAt: Joi.date(),
 });
