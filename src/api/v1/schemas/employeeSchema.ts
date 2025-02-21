@@ -1,9 +1,10 @@
 import Joi, { ObjectSchema } from "joi";
 
 export const employeeSchema: ObjectSchema = Joi.object({
-    id: Joi.string()
-        .optional()
-        .messages({ "string.empty": "Employee ID cannot be empty" }),
+    id: Joi.string().optional().messages({
+        "any.required": "ID is required",
+        "string.empty": "Employee ID cannot be empty"
+    }),
     name: Joi.string().required().messages({
         "any.required": "Name is required",
         "string.empty": "Name cannot be empty",
@@ -16,11 +17,13 @@ export const employeeSchema: ObjectSchema = Joi.object({
         "any.required": "Department is required",
         "string.empty": "Department cannot be empty",
     }),
-    email: Joi.string().required().messages({
+    email: Joi.string().email().required().messages({
+        "string.email": "Email must be a valid email address",
         "any.required": "Email is required",
         "string.empty": "Email cannot be empty",
     }),
-    phone: Joi.string().required().messages({
+    phone: Joi.string().pattern(/^[0-9]+$/).required().messages({
+        "string.pattern": "Phone number must only contain digits",
         "any.required": "Phone is required",
         "string.empty": "Phone cannot be empty",
     }),
