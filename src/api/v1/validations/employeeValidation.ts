@@ -1,10 +1,6 @@
 import Joi, { ObjectSchema } from "joi";
 
-export const employeeSchema: ObjectSchema = Joi.object({
-    id: Joi.string().optional().messages({
-        "any.required": "ID is required",
-        "string.empty": "ID cannot be empty",
-    }),
+export const postEmployeeSchema: ObjectSchema = Joi.object({
     name: Joi.string().required().messages({
         "any.required": "Name is required",
         "string.empty": "Name cannot be empty",
@@ -13,7 +9,7 @@ export const employeeSchema: ObjectSchema = Joi.object({
         "any.required": "Position is required",
         "string.empty": "Position cannot be empty",
     }),
-    department: Joi.number().required().messages({
+    department: Joi.string().required().messages({
         "any.required": "Department is required",
         "string.empty": "Department cannot be empty",
     }),
@@ -22,7 +18,7 @@ export const employeeSchema: ObjectSchema = Joi.object({
         "any.required": "Email is required",
         "string.empty": "Email cannot be empty",
     }),
-    phone: Joi.string().pattern(/^[0-9]+$/).required().messages({
+    phone: Joi.string().pattern(/^\d{3}-\d{3}-\d{4}$/).required().messages({
         "string.pattern": "Phone number must only contain digits",
         "any.required": "Phone is required",
         "string.empty": "Phone cannot be empty",
@@ -32,5 +28,60 @@ export const employeeSchema: ObjectSchema = Joi.object({
         "string.empty": "Branch ID cannot be empty",
     }),
     createdAt: Joi.date(),
+});
+
+export const getEmployeeByIdSchema: ObjectSchema = Joi.object({
+    id: Joi.string().required().messages({
+        "any.required": "ID is required",
+        "string.empty": "Employee ID cannot be empty",
+    }),
+});
+
+export const putEmployeeSchema: ObjectSchema = Joi.object({
+    id: Joi.string().required().messages({
+        "any.required": "ID is required",
+        "string.empty": "ID cannot be empty",
+    }),
+    name: Joi.string().optional().messages({
+        "string.empty": "Name cannot be empty",
+    }),
+    position: Joi.string().optional().messages({
+        "string.empty": "Position cannot be empty",
+    }),
+    department: Joi.string().optional().messages({
+        "string.empty": "Department cannot be empty",
+    }),
+    email: Joi.string().email().optional().messages({
+        "string.email": "Email must be a valid email address",
+        "string.empty": "Email cannot be empty",
+    }),
+    phone: Joi.string().pattern(/^\d{3}-\d{3}-\d{4}$/).optional().messages({
+        "string.pattern": "Phone number must only contain digits",
+        "string.empty": "Phone cannot be empty",
+    }),
+    branchId: Joi.string().optional().messages({
+        "string.empty": "Branch ID cannot be empty",
+    }),
     updatedAt: Joi.date(),
+});
+
+export const deleteEmployeeSchema: ObjectSchema = Joi.object({
+    id: Joi.string().required().messages({
+        "any.required": "ID is required",
+        "string.empty": "Employee ID cannot be empty",
+    }),
+});
+
+export const getEmployeesByBranchSchema: ObjectSchema = Joi.object({
+    branchId: Joi.string().required().messages({
+        "any.required": "Branch ID is required",
+        "string.empty": "Branch ID cannot be empty",
+    }),
+});
+
+export const getEmployeesByDepartmentSchema: ObjectSchema = Joi.object({
+    department: Joi.string().required().messages({
+        "any.required": "Department is required",
+        "string.empty": "Department cannot be empty",
+    }),
 });

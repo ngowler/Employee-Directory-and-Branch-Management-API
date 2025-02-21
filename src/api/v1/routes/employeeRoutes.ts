@@ -1,9 +1,28 @@
+/**
+ * Employee Routes (employeeRoutes.ts)
+ *
+ * This file defines the routes for managing employees in our application.
+ * It uses the Express framework for routing and makes calls to the employee controller
+ * (employeeController.ts) to handle the logic for each route.
+ */
 import express, { Router } from "express";
 import * as employeeController from "../controllers/employeeController"
+import { validateRequest } from "../middleware/validate";
+import {
+    postEmployeeSchema,
+    getEmployeeByIdSchema,
+    putEmployeeSchema,
+    deleteEmployeeSchema,
+    getEmployeesByBranchSchema,
+    getEmployeesByDepartmentSchema,
+} from "../validations/employeeValidation";
 
 const router: Router = express.Router();
 
 /**
+ * @route POST /employee
+ * @description Create a new item.
+ * 
  * @openapi
  * /employee:
  *   post:
@@ -13,9 +32,12 @@ const router: Router = express.Router();
  *       201:
  *         description: Creates a new employee
  */
-router.post("/", employeeController.createEmployee);
+router.post("/", validateRequest(postEmployeeSchema), employeeController.createEmployee);
 
 /**
+ * @route GET /employee
+ * @description Get all employees.
+ * 
  * @openapi
  * /employee:
  *   get:
@@ -28,6 +50,9 @@ router.post("/", employeeController.createEmployee);
 router.get("/", employeeController.getAllEmployees);
 
 /**
+ * @route GET /employee/:id
+ * @description Get employee by id.
+ *
  * @openapi
  * /employee/{id}:
  *   get:
@@ -37,9 +62,12 @@ router.get("/", employeeController.getAllEmployees);
  *       200:
  *         description: Gets an employee by id
  */
-router.get("/:id", employeeController.getEmployeeById);
+router.get("/:id", validateRequest(getEmployeeByIdSchema), employeeController.getEmployeeById);
 
 /**
+ * @route PUT /employee/:id
+ * @description Update an existing employee.
+ * 
  * @openapi
  * /employee/{id}:
  *   put:
@@ -49,9 +77,12 @@ router.get("/:id", employeeController.getEmployeeById);
  *       200:
  *         description: Updates an employee
  */
-router.put("/:id", employeeController.updateEmployee);
+router.put("/:id", validateRequest(putEmployeeSchema), employeeController.updateEmployee);
 
 /**
+ * @route DELETE /:id
+ * @description Delete an employee.
+ *
  * @openapi
  * /employee/{id}:
  *   delete:
@@ -61,11 +92,14 @@ router.put("/:id", employeeController.updateEmployee);
  *       200:
  *         description: Deletes an employee
  */
-router.delete("/:id", employeeController.deleteEmployee);
+router.delete("/:id", validateRequest(deleteEmployeeSchema), employeeController.deleteEmployee);
 
 //Additional Endpoints
 
 /**
+ * @route GET /employee/:branchId
+ * @description Get employees by branchId.
+ *
  * @openapi
  * /employee/branch/{branchId}:
  *   get:
@@ -75,9 +109,12 @@ router.delete("/:id", employeeController.deleteEmployee);
  *       200:
  *         description: Gets an employee by branch
  */
-router.get("/branch/:branchId", employeeController.getEmployeesByBranch);
+router.get("/branch/:branchId", validateRequest(getEmployeesByBranchSchema), employeeController.getEmployeesByBranch);
 
 /**
+ * @route GET /employee/:department
+ * @description Get employees by department.
+ *
  * @openapi
  * /employee/department/{department}:
  *   get:
@@ -87,6 +124,6 @@ router.get("/branch/:branchId", employeeController.getEmployeesByBranch);
  *       200:
  *         description: Gets an employee by department
  */
-router.get("/department/:department", employeeController.getEmployeesByDepartment);
+router.get("/department/:department", validateRequest(getEmployeesByDepartmentSchema), employeeController.getEmployeesByDepartment);
 
 export default router;
