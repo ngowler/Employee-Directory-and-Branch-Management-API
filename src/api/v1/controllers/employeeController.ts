@@ -2,6 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import * as employeeService from "../services/employeeService";
 import { Employee } from "../data/employeeData"
 
+/**
+ * @description Create a new employee.
+ * @route POST /employee/
+ * @returns {Promise<void>}
+ */
 export const createEmployee = async (
     req: Request,
     res: Response,
@@ -16,6 +21,11 @@ export const createEmployee = async (
     }
 };
 
+/**
+ * @description Get all employees.
+ * @route GET /employee/
+ * @returns {Promise<void>}
+ */
 export const getAllEmployees = async (
     req: Request,
     res: Response,
@@ -30,6 +40,11 @@ export const getAllEmployees = async (
     }
 };
 
+/**
+ * @description Get employees by id.
+ * @route GET /employee/:id
+ * @returns {Promise<void>}
+ */
 export const getEmployeeById = async (
     req: Request,
     res: Response,
@@ -44,6 +59,11 @@ export const getEmployeeById = async (
     }
 };
 
+/**
+ * @description Update an existing employee.
+ * @route PUT /employee/:id
+ * @returns {Promise<void>}
+ */
 export const updateEmployee = async (
     req: Request,
     res: Response,
@@ -58,6 +78,11 @@ export const updateEmployee = async (
     }
 };
 
+/**
+ * @description Delete an employee.
+ * @route DELETE /employee/:id
+ * @returns {Promise<void>}
+ */
 export const deleteEmployee = async (
     req: Request,
     res: Response,
@@ -73,6 +98,12 @@ export const deleteEmployee = async (
 };
 
 //Additional Endpoints
+
+/**
+ * @description Get employees by branch.
+ * @route GET /employee/:branch
+ * @returns {Promise<void>}
+ */
 export const getEmployeesByBranch = async (
     req: Request,
     res: Response,
@@ -87,6 +118,11 @@ export const getEmployeesByBranch = async (
     }
 };
 
+/**
+ * @description Get employees by department.
+ * @route GET /employee/:department
+ * @returns {Promise<void>}
+ */
 export const getEmployeesByDepartment = async (
     req: Request,
     res: Response,

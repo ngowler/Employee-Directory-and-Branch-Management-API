@@ -2,14 +2,9 @@ import { Branch } from "../data/branchData"
 import branches from "../data/branchData"
 
 /**
- * @openapi
- * /branch:
- *   post:
- *     summary: Creates a new branch
- *     tags: [Branch]
- *     responses:
- *       201:
- *         description: Creates a new branch
+ * @description Create a new branch.
+ * @param {Partial<Branch>} branch - The branch data.
+ * @returns {Promise<Branch>}
  */
 export const createBranch = async (branch: {
     name: string,
@@ -25,28 +20,18 @@ export const createBranch = async (branch: {
 };
 
 /**
- * @openapi
- * /branch:
- *   get:
- *     summary: Gets all branches
- *     tags: [Branch]
- *     responses:
- *       200:
- *         description: Gets all branches
+ * @description Get all branches.
+ * @returns {Promise<Branch[]>}
  */
 export const getAllBranches = async (): Promise<Branch[]> => {
     return branches;
 };
 
 /**
- * @openapi
- * /branch/{id}:
- *   get:
- *     summary: Gets a branch by id
- *     tags: [Branch]
- *     responses:
- *       200:
- *         description: Gets a branch by id
+ * @description Get branches by a specific field value.
+ * @param {string} id - The ID of the field to filter by.
+ * @returns {Promise<Branch[]>} Array of branches matching the criteria.
+ * @throws {Error} If no branches with the given field value are found or if the query fails.
  */
 export const getBranchById = async (id: string): Promise<Branch> => {
     const index: number = branches.findIndex((i) => i.id === id);
@@ -58,14 +43,11 @@ export const getBranchById = async (id: string): Promise<Branch> => {
 };
 
 /**
- * @openapi
- * /branch/{id}:
- *   put:
- *     summary: Updates a branch
- *     tags: [Branch]
- *     responses:
- *       200:
- *         description: Updates a branch
+ * @description Update an existing branch.
+ * @param {string} id - The ID of the branch to update.
+ * @param {Partial<Branch>} branch - The updated branch data.
+ * @returns {Promise<Branch>}
+ * @throws {Error} If the branch with the given ID is not found.
  */
 export const updateBranch = async (id: string, branch: {
     name?: string,
@@ -88,14 +70,10 @@ export const updateBranch = async (id: string, branch: {
 };
 
 /**
- * @openapi
- * /branch/{id}:
- *   delete:
- *     summary: Deletes a branch
- *     tags: [Branch]
- *     responses:
- *       200:
- *         description: Deletes a branch
+ * @description Delete a branch.
+ * @param {string} id - The ID of the branch to delete.
+ * @returns {Promise<void>}
+ * @throws {Error} If the branch with the given ID is not found.
  */
 export const deleteBranch = async (id: string): Promise<void> => {
     const index: number = branches.findIndex((i) => i.id === id);

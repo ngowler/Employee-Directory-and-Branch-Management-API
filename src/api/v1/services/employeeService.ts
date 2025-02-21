@@ -2,14 +2,9 @@ import { Employee } from "../data/employeeData"
 import employees from "../data/employeeData"
 
 /**
- * @openapi
- * /employee:
- *   post:
- *     summary: Creates a new employee
- *     tags: [Employee]
- *     responses:
- *       201:
- *         description: Creates a new employee
+ * @description Create a new employee.
+ * @param {Partial<Employee>} employee - The employee data.
+ * @returns {Promise<Employee>}
  */
 export const createEmployee = async (employee: {
     name: string,
@@ -28,28 +23,18 @@ export const createEmployee = async (employee: {
 };
 
 /**
- * @openapi
- * /employee:
- *   get:
- *     summary: Gets all employees
- *     tags: [Employee]
- *     responses:
- *       200:
- *         description: Gets all employees
+ * @description Get all employees.
+ * @returns {Promise<Employee[]>}
  */
 export const getAllEmployees = async (): Promise<Employee[]> => {
     return employees;
 };
 
 /**
- * @openapi
- * /employee/{id}:
- *   get:
- *     summary: Gets an employee by id
- *     tags: [Employee]
- *     responses:
- *       200:
- *         description: Gets an employee by id
+ * @description Get employees by a specific field value.
+ * @param {string} id - The ID of the field to filter by.
+ * @returns {Promise<Employee[]>} Array of employees matching the criteria.
+ * @throws {Error} If no employees with the given field value are found or if the query fails.
  */
 export const getEmployeeById = async (id: string): Promise<Employee> => {
     const index: number = employees.findIndex((i) => i.id === id);
@@ -61,14 +46,11 @@ export const getEmployeeById = async (id: string): Promise<Employee> => {
 };
 
 /**
- * @openapi
- * /employee/{id}:
- *   put:
- *     summary: Updates an employee
- *     tags: [Employee]
- *     responses:
- *       200:
- *         description: Updates an employee
+ * @description Update an existing employee.
+ * @param {string} id - The ID of the employee to update.
+ * @param {Partial<Employee>} employee - The updated employee data.
+ * @returns {Promise<Employee>}
+ * @throws {Error} If the employee with the given ID is not found.
  */
 export const updateEmployee = async (id: string, employee: {
     name?: string,
@@ -94,14 +76,10 @@ export const updateEmployee = async (id: string, employee: {
 };
 
 /**
- * @openapi
- * /employee/{id}:
- *   delete:
- *     summary: Deletes an employee
- *     tags: [Employee]
- *     responses:
- *       200:
- *         description: Deletes an employee
+ * @description Delete a employee.
+ * @param {string} id - The ID of the employee to delete.
+ * @returns {Promise<void>}
+ * @throws {Error} If the employee with the given ID is not found.
  */
 export const deleteEmployee = async (id: string): Promise<void> => {
     const index: number = employees.findIndex((i) => i.id === id);
@@ -113,15 +91,12 @@ export const deleteEmployee = async (id: string): Promise<void> => {
 };
 
 //Additional Endpoints
+
 /**
- * @openapi
- * /employee/branch/{branchId}:
- *   get:
- *     summary: Gets an employee by branch
- *     tags: [Employee]
- *     responses:
- *       200:
- *         description: Gets an employee by branch
+ * @description Get employees by a specific branch ID.
+ * @param {string} id - The branch ID of the field to filter by.
+ * @returns {Promise<Employee[]>} Array of employees matching the criteria.
+ * @throws {Error} If no employees with the given branch ID are found or if the query fails.
  */
 export const getEmployeesByBranch = async (branchId: string): Promise<Employee[]> => {
     const employeesInBranch: Employee[] = employees.filter((i) => i.branchId === branchId);
@@ -133,14 +108,10 @@ export const getEmployeesByBranch = async (branchId: string): Promise<Employee[]
 };
 
 /**
- * @openapi
- * /employee/department/{department}:
- *   get:
- *     summary: Gets an employee by department
- *     tags: [Employee]
- *     responses:
- *       200:
- *         description: Gets an employee by department
+ * @description Get employees by a specific department name.
+ * @param {string} id - The department name of the field to filter by.
+ * @returns {Promise<Employee[]>} Array of employees matching the criteria.
+ * @throws {Error} If no employees with the given department name are found or if the query fails.
  */
 export const getEmployeesByDepartment = async (department: string): Promise<Employee[]> => {
     const lowerCaseDepartment: string = department.toLowerCase();

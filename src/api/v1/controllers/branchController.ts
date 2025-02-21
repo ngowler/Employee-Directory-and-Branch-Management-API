@@ -2,6 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import * as branchService from "../services/branchService";
 import { Branch } from "../data/branchData"
 
+/**
+ * @description Create a new branch.
+ * @route POST /branch/
+ * @returns {Promise<void>}
+ */
 export const createBranch = async (
     req: Request,
     res: Response,
@@ -16,6 +21,11 @@ export const createBranch = async (
     }
 };
 
+/**
+ * @description Get all branches.
+ * @route GET /branch/
+ * @returns {Promise<void>}
+ */
 export const getAllBranches = async (
     req: Request,
     res: Response,
@@ -30,6 +40,11 @@ export const getAllBranches = async (
     }
 };
 
+/**
+ * @description Get branches by id.
+ * @route GET /branch/:id
+ * @returns {Promise<void>}
+ */
 export const getBranchById = async (
     req: Request,
     res: Response,
@@ -44,6 +59,11 @@ export const getBranchById = async (
     }
 };
 
+/**
+ * @description Update an existing branch.
+ * @route PUT /branch/:id
+ * @returns {Promise<void>}
+ */
 export const updateBranch = async (
     req: Request,
     res: Response,
@@ -58,6 +78,11 @@ export const updateBranch = async (
     }
 };
 
+/**
+ * @description Delete a branch.
+ * @route DELETE /branch/:id
+ * @returns {Promise<void>}
+ */
 export const deleteBranch = async (
     req: Request,
     res: Response,
