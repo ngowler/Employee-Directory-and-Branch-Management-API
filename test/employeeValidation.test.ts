@@ -173,7 +173,7 @@ describe("validateRequest middleware for employees", () => {
         next = jest.fn();
     });
 
-    it("should call next for valid postEmployeeSchema data", () => {
+    it("should not throw an error for valid postEmployeeSchema data", () => {
         req.body = {
             name: "John Doe",
             position: "Manager",
@@ -191,7 +191,7 @@ describe("validateRequest middleware for employees", () => {
         expect(res.json).not.toHaveBeenCalled();
     });
 
-    it("should return 400 for invalid postEmployeeSchema data (missing name)", () => {
+    it("should return 400 for missing name", () => {
         req.body = {
             position: "Manager",
             department: "Sales",
@@ -209,7 +209,7 @@ describe("validateRequest middleware for employees", () => {
         });
     });
 
-    it("should call next for valid getEmployeeByIdSchema data", () => {
+    it("should not throw an error for valid getEmployeeByIdSchema data", () => {
         req.params = { id: "1" };
 
         validateRequest(getEmployeeByIdSchema)(req as Request, res as Response, next);
@@ -219,7 +219,7 @@ describe("validateRequest middleware for employees", () => {
         expect(res.json).not.toHaveBeenCalled();
     });
 
-    it("should return 400 for invalid getEmployeeByIdSchema data (missing id)", () => {
+    it("should return 400 for missing id", () => {
         req.params = {};
 
         validateRequest(getEmployeeByIdSchema)(req as Request, res as Response, next);
@@ -231,7 +231,7 @@ describe("validateRequest middleware for employees", () => {
         });
     });
 
-    it("should call next for valid putEmployeeSchema data", () => {
+    it("should not throw an error for valid putEmployeeSchema data", () => {
         req.body = {
             id: "1",
             name: "John Doe",
@@ -250,7 +250,7 @@ describe("validateRequest middleware for employees", () => {
         expect(res.json).not.toHaveBeenCalled();
     });
 
-    it("should return 400 for invalid putEmployeeSchema data (missing id)", () => {
+    it("should return 400 for missing id", () => {
         req.body = {
             name: "John Doe",
             position: "Manager",
@@ -270,7 +270,7 @@ describe("validateRequest middleware for employees", () => {
         });
     });
 
-    it("should call next for valid deleteEmployeeSchema data", () => {
+    it("should not throw an error for valid deleteEmployeeSchema data", () => {
         req.params = { id: "1" };
 
         validateRequest(deleteEmployeeSchema)(req as Request, res as Response, next);
@@ -280,7 +280,7 @@ describe("validateRequest middleware for employees", () => {
         expect(res.json).not.toHaveBeenCalled();
     });
 
-    it("should return 400 for invalid deleteEmployeeSchema data (missing id)", () => {
+    it("should return 400 for missing id", () => {
         req.params = {};
 
         validateRequest(deleteEmployeeSchema)(req as Request, res as Response, next);
@@ -292,7 +292,7 @@ describe("validateRequest middleware for employees", () => {
         });
     });
 
-    it("should call next for valid getEmployeesByBranchSchema data", () => {
+    it("should not throw an error for valid getEmployeesByBranchSchema data", () => {
         req.query = { branchId: "1" };
 
         validateRequest(getEmployeesByBranchSchema)(req as Request, res as Response, next);
@@ -302,7 +302,7 @@ describe("validateRequest middleware for employees", () => {
         expect(res.json).not.toHaveBeenCalled();
     });
 
-    it("should return 400 for invalid getEmployeesByBranchSchema data (missing branchId)", () => {
+    it("should return 400 for missing branchId", () => {
         req.query = {};
 
         validateRequest(getEmployeesByBranchSchema)(req as Request, res as Response, next);
@@ -314,7 +314,7 @@ describe("validateRequest middleware for employees", () => {
         });
     });
 
-    it("should call next for valid getEmployeesByDepartmentSchema data", () => {
+    it("should not throw an error for valid getEmployeesByDepartmentSchema data", () => {
         req.query = { department: "Sales" };
 
         validateRequest(getEmployeesByDepartmentSchema)(req as Request, res as Response, next);
@@ -324,7 +324,7 @@ describe("validateRequest middleware for employees", () => {
         expect(res.json).not.toHaveBeenCalled();
     });
 
-    it("should return 400 for invalid getEmployeesByDepartmentSchema data (missing department)", () => {
+    it("should return 400 for missing department", () => {
         req.query = {};
 
         validateRequest(getEmployeesByDepartmentSchema)(req as Request, res as Response, next);
