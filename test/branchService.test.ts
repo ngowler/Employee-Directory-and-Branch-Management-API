@@ -1,10 +1,10 @@
 import {
-    createEmployee,
-    getAllEmployees,
-    getEmployeesByField,
-    updateEmployee,
-    deleteEmployee,
-} from "../src/api/v1/services/employeeService";
+    createBranch,
+    getAllBranches,
+    getBranchesByField,
+    updateBranch,
+    deleteBranch,
+} from "../src/api/v1/services/branchService";
 import {
     getDocuments,
     createDocument,
@@ -12,7 +12,7 @@ import {
     deleteDocument,
     getDocumentsByFieldValue,
 } from "../src/api/v1/repositories/firestoreRepository";
-import { Employee } from "../src/api/v1/models/employeeModel";
+import { Branch } from "../src/api/v1/models/branchModel";
 import {
     QuerySnapshot,
     QueryDocumentSnapshot,
@@ -28,41 +28,41 @@ jest.mock("../src/api/v1/repositories/firestoreRepository", () => ({
     getDocumentsByFieldValue: jest.fn(),
 }));
 
-describe("Employee Service", () => {
-    describe("createEmployee", () => {
+describe("Branch Service", () => {
+    describe("createBranch", () => {
         beforeEach(() => {
             jest.clearAllMocks();
         });
 
-        it("should create a new employee", async () => {
-            const mockEmployee: Partial<Employee> = {
-                name: "John Doe",
-                position: "Software Engineer",
+        it("should create a new branch", async () => {
+            const mockBranch: Partial<Branch> = {
+                name: "Main Branch",
+                address: "123 Main Street",
             };
 
             (createDocument as jest.Mock).mockResolvedValue("123");
 
-            const result: Employee = await createEmployee(mockEmployee);
+            const result: Branch = await createBranch(mockBranch);
 
-            expect(createDocument).toHaveBeenCalledWith("employees", mockEmployee);
-            expect(result).toEqual({ id: "123", ...mockEmployee });
+            expect(createDocument).toHaveBeenCalledWith("branches", mockBranch);
+            expect(result).toEqual({ id: "123", ...mockBranch });
         });
     });
 
-    describe("getAllEmployees", () => {
+    describe("getAllBranches", () => {
         beforeEach(() => {
             jest.clearAllMocks();
         });
 
-        it("should return all employees", async () => {
+        it("should return all branches", async () => {
             const mockDate = new Date();
             const mockDocs: QueryDocumentSnapshot[] = [
                 {
-                    id: "employee1",
+                    id: "branch1",
                     data: () =>
                         ({
-                            name: "Employee 1",
-                            position: "Manager",
+                            name: "Branch 1",
+                            location: "Location 1",
                             createdAt: mockDate,
                             updatedAt: mockDate,
                         } as DocumentData),
@@ -75,37 +75,36 @@ describe("Employee Service", () => {
 
             (getDocuments as jest.Mock).mockResolvedValue(mockSnapshot);
 
-            const result: Employee[] = await getAllEmployees();
+            const result: Branch[] = await getAllBranches();
 
-            expect(getDocuments).toHaveBeenCalledWith("employees");
+            expect(getDocuments).toHaveBeenCalledWith("branches");
             expect(result).toHaveLength(1);
             expect(result[0]).toEqual({
-                id: "employee1",
-                name: "Employee 1",
-                position: "Manager",
+                id: "branch1",
+                name: "Branch 1",
+                location: "Location 1",
                 createdAt: mockDate,
                 updatedAt: mockDate,
             });
         });
     });
 
-    describe("getEmployeesByField", () => {
+    describe("getBranchesByField", () => {
         beforeEach(() => {
             jest.clearAllMocks();
         });
 
-        it("should return employees matching the field value", async () => {
+        it("should return branches matching the field value", async () => {
             const mockDate = new Date();
-            const mockFieldName = "department";
-            const mockFieldValue = "engineering";
+            const mockFieldName = "location";
+            const mockFieldValue = "Downtown";
             const mockDocs: QueryDocumentSnapshot[] = [
                 {
-                    id: "employee1",
+                    id: "branch1",
                     data: () =>
                         ({
-                            name: "Engineer 1",
-                            department: "engineering",
-                            position: "Software Engineer",
+                            name: "Branch 1",
+                            location: "Downtown",
                             createdAt: mockDate,
                             updatedAt: mockDate,
                         } as DocumentData),
@@ -118,38 +117,37 @@ describe("Employee Service", () => {
 
             (getDocumentsByFieldValue as jest.Mock).mockResolvedValue(mockSnapshot);
 
-            const result: Employee[] = await getEmployeesByField(mockFieldName, mockFieldValue);
+            const result: Branch[] = await getBranchesByField(mockFieldName, mockFieldValue);
 
             expect(getDocumentsByFieldValue).toHaveBeenCalledWith(
-                "employees",
+                "branches",
                 mockFieldName,
                 mockFieldValue,
                 undefined
             );
             expect(result).toHaveLength(1);
             expect(result[0]).toEqual({
-                id: "employee1",
-                name: "Engineer 1",
-                department: "engineering",
-                position: "Software Engineer",
+                id: "branch1",
+                name: "Branch 1",
+                location: "Downtown",
                 createdAt: mockDate,
                 updatedAt: mockDate,
             });
         });
 
         it("should handle repository error", async () => {
-            const mockFieldName = "department";
+            const mockFieldName = "location";
             const mockFieldValue = "nonexistent";
             const mockError = new Error("Repository error");
 
             (getDocumentsByFieldValue as jest.Mock).mockRejectedValue(mockError);
 
-            await expect(getEmployeesByField(mockFieldName, mockFieldValue)).rejects.toThrow(
-                new ServiceError(`Failed to get employee ${mockFieldValue}: ${mockError.message}`, "ERROR_CODE")
+            await expect(getBranchesByField(mockFieldName, mockFieldValue)).rejects.toThrow(
+                new ServiceError(`Failed to get branch ${mockFieldValue}: ${mockError.message}`, "ERROR_CODE")
             );
 
             expect(getDocumentsByFieldValue).toHaveBeenCalledWith(
-                "employees",
+                "branches",
                 mockFieldName,
                 mockFieldValue,
                 undefined
@@ -157,70 +155,70 @@ describe("Employee Service", () => {
         });
     });
 
-    describe("updateEmployee", () => {
+    describe("updateBranch", () => {
         beforeEach(() => {
             jest.clearAllMocks();
         });
 
-        it("should update an existing employee", async () => {
-            const mockEmployee: Partial<Employee> = {
-                name: "John Smith",
-                position: "Senior Engineer",
+        it("should update an existing branch", async () => {
+            const mockBranch: Partial<Branch> = {
+                name: "Main Branch - Updated",
+                address: "123 Main Street",
             };
 
-            const id = "employee1";
+            const id = "branch1";
             (updateDocument as jest.Mock).mockResolvedValue(undefined);
 
-            const result: Employee = await updateEmployee(id, mockEmployee);
+            const result: Branch = await updateBranch(id, mockBranch);
 
-            expect(updateDocument).toHaveBeenCalledWith("employees", id, mockEmployee);
-            expect(result).toEqual({ id, ...mockEmployee });
+            expect(updateDocument).toHaveBeenCalledWith("branches", id, mockBranch);
+            expect(result).toEqual({ id, ...mockBranch });
         });
 
         it("should handle update error", async () => {
-            const mockEmployee: Partial<Employee> = {
-                name: "John Smith",
-                position: "Senior Engineer",
+            const mockBranch: Partial<Branch> = {
+                name: "Main Branch - Updated",
+                address: "123 Main Street",
             };
 
-            const id = "employee1";
+            const id = "branch1";
             const mockError = new Error("Repository error");
 
             (updateDocument as jest.Mock).mockRejectedValue(mockError);
 
-            await expect(updateEmployee(id, mockEmployee)).rejects.toThrow(
-                new ServiceError(`Failed to update employee ${id}: ${mockError.message}`, "ERROR_CODE")
+            await expect(updateBranch(id, mockBranch)).rejects.toThrow(
+                new ServiceError(`Failed to update branch ${id}: ${mockError.message}`, "ERROR_CODE")
             );
 
-            expect(updateDocument).toHaveBeenCalledWith("employees", id, mockEmployee);
+            expect(updateDocument).toHaveBeenCalledWith("branches", id, mockBranch);
         });
     });
 
-    describe("deleteEmployee", () => {
+    describe("deleteBranch", () => {
         beforeEach(() => {
             jest.clearAllMocks();
         });
 
-        it("should delete an existing employee", async () => {
-            const id = "employee1";
+        it("should delete an existing branch", async () => {
+            const id = "branch1";
             (deleteDocument as jest.Mock).mockResolvedValue(undefined);
 
-            await deleteEmployee(id);
+            await deleteBranch(id);
 
-            expect(deleteDocument).toHaveBeenCalledWith("employees", id);
+            expect(deleteDocument).toHaveBeenCalledWith("branches", id);
         });
 
         it("should handle delete error", async () => {
-            const id = "employee1";
+            const id = "branch1";
             const mockError = new Error("Repository error");
-
+        
             (deleteDocument as jest.Mock).mockRejectedValue(mockError);
-
-            await expect(deleteEmployee(id)).rejects.toThrow(
-                new ServiceError(`Failed to delete employee ${id}: ${mockError.message}`, "ERROR_CODE")
+        
+            await expect(deleteBranch(id)).rejects.toThrow(
+                new ServiceError(`Failed to delete branch ${id}: ${mockError.message}`, "ERROR_CODE")
             );
-
-            expect(deleteDocument).toHaveBeenCalledWith("employees", id);
+        
+            expect(deleteDocument).toHaveBeenCalledWith("branches", id);
         });
     });
 });
