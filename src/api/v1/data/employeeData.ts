@@ -1,12 +1,4 @@
-export interface Employee {
-    id: string;
-    name: string;
-    position: string;
-    department: string;
-    email: string;
-    phone: string;
-    branchId: string;
-}
+import { Employee } from "../models/employeeModel"
 
 const employees: Employee[] = [
     { id: "1", name: "Alice Johnson", position: "Branch Manager", department: "Management", email: "alice.johnson@pixell-river.com", phone: "604-555-0148", branchId: "1" },

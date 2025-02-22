@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as branchController from "../src/api/v1/controllers/branchController";
 import * as branchService from "../src/api/v1/services/branchService";
-import { Branch } from "src/api/v1/data/branchData";
+import { Branch } from "src/api/v1/models/branchModel";
 
 jest.mock("../src/api/v1/services/branchService");
 

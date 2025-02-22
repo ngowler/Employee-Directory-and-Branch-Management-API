@@ -1,9 +1,4 @@
-export interface Branch {
-    id: string;
-    name: string;
-    address: string;
-    phone: string;
-}
+import { Branch } from "../models/branchModel"
 
 const branches: Branch[] = [
     { id: "1", name: "Vancouver Branch", address: "1300 Burrard St, Vancouver, BC, V6Z 2C7", phone: "604-456-0022" },

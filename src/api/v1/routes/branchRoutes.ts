@@ -30,7 +30,7 @@ const router: Router = express.Router();
  *       201:
  *         description: Creates a new branch
  */
-router.post("/", branchController.createBranch);
+router.post("/", validateRequest(postBranchSchema), branchController.createBranch);
 
 /**
  * @route GET /branch
@@ -60,7 +60,7 @@ router.get("/", branchController.getAllBranches);
  *       200:
  *         description: Gets a branch by id
  */
-router.get("/:id", branchController.getBranchById);
+router.get("/:id", validateRequest(getBranchByIdSchema), branchController.getBranchById);
 
 /**
  * @route PUT /branch/:id
@@ -75,7 +75,7 @@ router.get("/:id", branchController.getBranchById);
  *       200:
  *         description: Updates a branch
  */
-router.put("/:id", branchController.updateBranch);
+router.put("/:id", validateRequest(putBranchSchema), branchController.updateBranch);
 
 /**
  * @route DELETE /:id
@@ -90,6 +90,6 @@ router.put("/:id", branchController.updateBranch);
  *       200:
  *         description: Deletes a branch
  */
-router.delete("/:id", branchController.deleteBranch);
+router.delete("/:id", validateRequest(deleteBranchSchema), branchController.deleteBranch);
 
 export default router;

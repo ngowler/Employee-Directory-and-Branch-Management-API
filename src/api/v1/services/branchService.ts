@@ -4,7 +4,7 @@
  * This file defines functions (services) for managing branch data. These functions
  * currently store branches in-memory but could be extended to use a database.
  */
-import { Branch } from "../data/branchData"
+import { Branch } from "../models/branchModel"
 import branches from "../data/branchData"
 
 /**

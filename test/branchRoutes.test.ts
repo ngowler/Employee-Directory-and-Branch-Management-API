@@ -29,9 +29,9 @@ describe("Branch Routes", () => {
                 phone: string;
             }
             const mockNewBranch: newBranch = {
-                name: "Test Name",
-                address: "Test Address",
-                phone: "Test Phone",
+                name: "Main Branch",
+                address: "123 Main St",
+                phone: "123-456-7890",
             };
             await request(app).post("/api/v1/branch").send(mockNewBranch);
             expect(createBranch).toHaveBeenCalled();
@@ -60,9 +60,9 @@ describe("Branch Routes", () => {
                 phone: string;
             }
             const mockBranch: mockBranch = {
-                name: "Test Name",
-                address: "Test Address",
-                phone: "Test Phone",
+                name: "Main Branch",
+                address: "123 Main St",
+                phone: "123-456-7890",
             };
 
             await request(app).put("/api/v1/branch/1").send(mockBranch);
