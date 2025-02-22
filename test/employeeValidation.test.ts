@@ -17,8 +17,8 @@ import {
 import { Branch } from "../src/api/v1/data/branchData"
 import { Employee } from "../src/api/v1/data/employeeData"
 
-describe("employee validation schemas", () => {
-
+describe("validate function for employees", () => {
+    
     describe("postEmployeeSchema", () => {
         it("should not throw an error for valid employee data", () => {
             const data = {
@@ -163,6 +163,184 @@ describe("employee validation schemas", () => {
         it("should throw an error for empty department", () => {
             const data = { department: "" };
             expect(() => validate(getEmployeesByDepartmentSchema, data)).toThrow
+        });
+    });
+});
+
+describe("validateRequest middleware for employees", () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+
+    beforeEach(() => {
+        req = { body: {}, params: {}, query: {} };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+        next = jest.fn();
+    });
+
+    it("should call next for valid postEmployeeSchema data", () => {
+        req.body = {
+            name: "John Doe",
+            position: "Manager",
+            department: "Sales",
+            email: "john.doe@example.com",
+            phone: "123-456-7890",
+            branchId: "1",
+            createdAt: new Date(),
+        };
+
+        validateRequest(postEmployeeSchema)(req as Request, res as Response, next);
+
+        expect(next).toHaveBeenCalled();
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
+    });
+
+    it("should return 400 for invalid postEmployeeSchema data (missing name)", () => {
+        req.body = {
+            position: "Manager",
+            department: "Sales",
+            email: "john.doe@example.com",
+            phone: "123-456-7890",
+            branchId: "1",
+        };
+
+        validateRequest(postEmployeeSchema)(req as Request, res as Response, next);
+
+        expect(next).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            error: "Validation error: Name is required",
+        });
+    });
+
+    it("should call next for valid getEmployeeByIdSchema data", () => {
+        req.params = { id: "1" };
+
+        validateRequest(getEmployeeByIdSchema)(req as Request, res as Response, next);
+
+        expect(next).toHaveBeenCalled();
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
+    });
+
+    it("should return 400 for invalid getEmployeeByIdSchema data (missing id)", () => {
+        req.params = {};
+
+        validateRequest(getEmployeeByIdSchema)(req as Request, res as Response, next);
+
+        expect(next).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            error: "Validation error: ID is required",
+        });
+    });
+
+    it("should call next for valid putEmployeeSchema data", () => {
+        req.body = {
+            id: "1",
+            name: "John Doe",
+            position: "Manager",
+            department: "Sales",
+            email: "john.doe@example.com",
+            phone: "123-456-7890",
+            branchId: "1",
+            updatedAt: new Date(),
+        };
+
+        validateRequest(putEmployeeSchema)(req as Request, res as Response, next);
+
+        expect(next).toHaveBeenCalled();
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
+    });
+
+    it("should return 400 for invalid putEmployeeSchema data (missing id)", () => {
+        req.body = {
+            name: "John Doe",
+            position: "Manager",
+            department: "Sales",
+            email: "john.doe@example.com",
+            phone: "123-456-7890",
+            branchId: "1",
+            updatedAt: new Date(),
+        };
+
+        validateRequest(putEmployeeSchema)(req as Request, res as Response, next);
+
+        expect(next).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            error: "Validation error: ID is required",
+        });
+    });
+
+    it("should call next for valid deleteEmployeeSchema data", () => {
+        req.params = { id: "1" };
+
+        validateRequest(deleteEmployeeSchema)(req as Request, res as Response, next);
+
+        expect(next).toHaveBeenCalled();
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
+    });
+
+    it("should return 400 for invalid deleteEmployeeSchema data (missing id)", () => {
+        req.params = {};
+
+        validateRequest(deleteEmployeeSchema)(req as Request, res as Response, next);
+
+        expect(next).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            error: "Validation error: ID is required",
+        });
+    });
+
+    it("should call next for valid getEmployeesByBranchSchema data", () => {
+        req.query = { branchId: "1" };
+
+        validateRequest(getEmployeesByBranchSchema)(req as Request, res as Response, next);
+
+        expect(next).toHaveBeenCalled();
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
+    });
+
+    it("should return 400 for invalid getEmployeesByBranchSchema data (missing branchId)", () => {
+        req.query = {};
+
+        validateRequest(getEmployeesByBranchSchema)(req as Request, res as Response, next);
+
+        expect(next).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            error: "Validation error: Branch ID is required",
+        });
+    });
+
+    it("should call next for valid getEmployeesByDepartmentSchema data", () => {
+        req.query = { department: "Sales" };
+
+        validateRequest(getEmployeesByDepartmentSchema)(req as Request, res as Response, next);
+
+        expect(next).toHaveBeenCalled();
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
+    });
+
+    it("should return 400 for invalid getEmployeesByDepartmentSchema data (missing department)", () => {
+        req.query = {};
+
+        validateRequest(getEmployeesByDepartmentSchema)(req as Request, res as Response, next);
+
+        expect(next).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            error: "Validation error: Department is required",
         });
     });
 });
