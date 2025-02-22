@@ -12,8 +12,8 @@ import {
     postBranchSchema,
     getBranchByIdSchema,
     putBranchSchema,
-    deleteBranchSchema,
-} from "../validations/branchValidation";
+    deleteBranchSchema, }
+    from "../validations/branchValidation";
 
 const router: Router = express.Router();
 

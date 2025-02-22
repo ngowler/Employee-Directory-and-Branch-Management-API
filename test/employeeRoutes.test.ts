@@ -28,12 +28,12 @@ describe("Employee Routes", () => {
                 branchId: string;
             }
             const mockNewEmployee: NewEmployee = {
-                name: "Test Name",
-                position: "Test Position",
-                department: "Test Department",
-                email: "Test Email",
-                phone: "Test Phone",
-                branchId: "Test Branch Id",
+                name: "John Doe",
+                position: "Manager",
+                department: "Sales",
+                email: "john.doe@example.com",
+                phone: "123-456-7890",
+                branchId: "1",
             };
             await request(app).post("/api/v1/employee").send(mockNewEmployee);
             expect(employeeController.createEmployee).toHaveBeenCalled();
@@ -65,12 +65,12 @@ describe("Employee Routes", () => {
                 branchId: string;
             }
             const mockEmployee: MockEmployee = {
-                name: "Test Name",
-                position: "Test Position",
-                department: "Test Department",
-                email: "Test Email",
-                phone: "Test Phone",
-                branchId: "Test Branch Id",
+                name: "John Doe",
+                position: "Manager",
+                department: "Sales",
+                email: "john.doe@example.com",
+                phone: "123-456-7890",
+                branchId: "1",
             };
 
             await request(app).put("/api/v1/employee/1").send(mockEmployee);

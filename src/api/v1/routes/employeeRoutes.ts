@@ -14,8 +14,8 @@ import {
     putEmployeeSchema,
     deleteEmployeeSchema,
     getEmployeesByBranchSchema,
-    getEmployeesByDepartmentSchema,
-} from "../validations/employeeValidation";
+    getEmployeesByDepartmentSchema, }
+    from "../validations/employeeValidation";
 
 const router: Router = express.Router();
 
