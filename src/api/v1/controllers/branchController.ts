@@ -7,7 +7,7 @@
  */
 import { Request, Response, NextFunction } from "express";
 import * as branchService from "../services/branchService";
-import { Branch } from "../data/branchData"
+import { Branch } from "../models/branchModel"
 
 /**
  * @description Create a new branch.
