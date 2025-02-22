@@ -64,9 +64,23 @@ export const getEmployeeById = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const employee: Employee = await employeeService.getEmployeeById(req.params.id);
+        const { id } = req.params;
+        const limit = req.query.limit
+            ? parseInt(req.query.limit as string)
+            : undefined;
 
-        res.status(200).json({ message: "Employee Retrieved", data: employee });
+        const employee: Employee[] = await employeeService.getEmployeesByField(
+            "id",
+            id,
+            limit
+        );
+
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(
+                employee,
+                `employee with ID "${id}" retrieved successfully`
+            )
+        );
     } catch (error) {
         next(error);
     }
@@ -83,7 +97,7 @@ export const updateEmployee = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const updatedEmployee: Employee = await employeeService.updateEmployee(
+        const updatedEmployee: Employee[] = await employeeService.getEmployeesByField(
             req.params.id,
             req.body
         );
@@ -128,9 +142,23 @@ export const getEmployeesByBranch = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const employeesInBranch: Employee[] = await employeeService.getEmployeesByBranch(req.params.branchId);
+        const { branchId } = req.params;
+        const limit = req.query.limit
+            ? parseInt(req.query.limit as string)
+            : undefined;
 
-        res.status(200).json({ message: "Employees Retrieved", data: employeesInBranch });
+        const employees: Employee[] = await employeeService.getEmployeesByField(
+            "branchId",
+            branchId,
+            limit
+        );
+
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(
+                employees,
+                `employees with branch ID "${branchId}" retrieved successfully`
+            )
+        );
     } catch (error) {
         next(error);
     }
@@ -147,9 +175,23 @@ export const getEmployeesByDepartment = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const employeesInDepartment: Employee[] = await employeeService.getEmployeesByDepartment(req.params.department);
+        const { department } = req.params;
+        const limit = req.query.limit
+            ? parseInt(req.query.limit as string)
+            : undefined;
 
-        res.status(200).json({ message: "Employees Retrieved", data: employeesInDepartment });
+        const employees: Employee[] = await employeeService.getEmployeesByField(
+            "department",
+            department,
+            limit
+        );
+
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(
+                employees,
+                `employees in department "${department}" retrieved successfully`
+            )
+        );
     } catch (error) {
         next(error);
     }

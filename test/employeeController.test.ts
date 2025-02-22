@@ -1,17 +1,16 @@
 jest.mock("../src/api/v1/services/employeeService", () => ({
     createEmployee: jest.fn(),
     getAllEmployees: jest.fn(),
-    getEmployeeById: jest.fn(),
+    getEmployeesByField: jest.fn(),
     updateEmployee: jest.fn(),
     deleteEmployee: jest.fn(),
-    getEmployeesByBranch: jest.fn(),
-    getEmployeesByDepartment: jest.fn(),
 }));
 
 import { Request, Response, NextFunction } from "express";
 import * as employeeController from "../src/api/v1/controllers/employeeController";
 import * as employeeService from "../src/api/v1/services/employeeService";
 import { Employee } from "src/api/v1/models/employeeModel";
+import { HTTP_STATUS } from "../src/constants/httpConstants";
 
 jest.mock("../src/api/v1/services/employeeService");
 
@@ -45,7 +44,7 @@ describe("Employeee Controller", () => {
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(201);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.CREATED);
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: "Employee Created",
                 data: mockNewEmployee,
@@ -72,7 +71,7 @@ describe("Employeee Controller", () => {
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: "Employees Retrieved",
                 data: mockEmployees,
@@ -92,17 +91,21 @@ describe("Employeee Controller", () => {
                 phone: "123-456-7890",
                 branchId: "1",
             };
-            (employeeService.getEmployeeById as jest.Mock).mockResolvedValue(mockEmployee);
+            (employeeService.getEmployeesByField as jest.Mock).mockResolvedValue(mockEmployee);
+
+            mockReq.params = { id: "1" };
+            mockReq.query = { limit: "10" };
 
             await employeeController.getEmployeeById(
                 mockReq as Request,
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
-                message: "Employee Retrieved",
+                message: `employee with ID "1" retrieved successfully`,
                 data: mockEmployee,
+                status: "success",
             });
         });
     });
@@ -125,7 +128,7 @@ describe("Employeee Controller", () => {
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: "Employee Updated",
                 data: mockEmployee,
@@ -144,7 +147,7 @@ describe("Employeee Controller", () => {
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
                 data: "Employee Deleted",
                 status: "success",
@@ -164,17 +167,21 @@ describe("Employeee Controller", () => {
                 phone: "123-456-7890",
                 branchId: "1",
             }];
-            (employeeService.getEmployeesByBranch as jest.Mock).mockResolvedValue(mockEmployees);
+            (employeeService.getEmployeesByField as jest.Mock).mockResolvedValue(mockEmployees);
+
+            mockReq.params = { branchId: "1" };
+            mockReq.query = { limit: "10" };
 
             await employeeController.getEmployeesByBranch(
                 mockReq as Request,
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
-                message: "Employees Retrieved",
+                message: `employees with branch ID "1" retrieved successfully`,
                 data: mockEmployees,
+                status: "success",
             });
         });
     });
@@ -190,17 +197,21 @@ describe("Employeee Controller", () => {
                 phone: "123-456-7890",
                 branchId: "1",
             }];
-            (employeeService.getEmployeesByDepartment as jest.Mock).mockResolvedValue(mockEmployees);
+            (employeeService.getEmployeesByField as jest.Mock).mockResolvedValue(mockEmployees);
+
+            mockReq.params = { department: "Sales" };
+            mockReq.query = { limit: "10" };
 
             await employeeController.getEmployeesByDepartment(
                 mockReq as Request,
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
-                message: "Employees Retrieved",
+                message: `employees in department "Sales" retrieved successfully`,
                 data: mockEmployees,
+                status: "success",
             });
         });
     });
