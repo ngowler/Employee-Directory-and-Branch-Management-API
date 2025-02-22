@@ -1,6 +1,6 @@
 jest.mock("../src/api/v1/services/employeeService", () => ({
-    getAllEmployees: jest.fn(),
     createEmployee: jest.fn(),
+    getAllEmployees: jest.fn(),
     getEmployeeById: jest.fn(),
     updateEmployee: jest.fn(),
     deleteEmployee: jest.fn(),
