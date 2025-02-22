@@ -3,6 +3,7 @@ import { ObjectSchema } from "joi";
 
 import { MiddlewareFunction, RequestData } from "../types/expressTypes";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
+import { ValidationError } from "../errors/errors";
 
 /**
  * Validates data against a Joi schema and throws an error if validation fails.
@@ -10,16 +11,18 @@ import { HTTP_STATUS } from "../../../constants/httpConstants";
  * @template T - The type of data being validated
  * @param schema - Joi schema to validate against
  * @param data - Data to validate
- * @throws Error if validation fails, with concatenated error messages
+ * @throws ValidationError if validation fails, with concatenated error messages
  */
 export const validate = <T>(schema: ObjectSchema<T>, data: T): void => {
     const { error } = schema.validate(data, { abortEarly: false });
 
     if (error) {
-        throw new Error(
+        throw new ValidationError(
             `Validation error: ${error.details
                 .map((x) => x.message)
-                .join(", ")}`
+                .join(", ")}`,
+            "VALIDATION_ERR",
+            HTTP_STATUS.BAD_REQUEST
         );
     }
 };
@@ -46,7 +49,7 @@ export const validateRequest = (schema: ObjectSchema): MiddlewareFunction => {
             next();
         } catch (error) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
-                error: (error as Error).message,
+                error: (error as ValidationError).message,
             });
         }
     };
