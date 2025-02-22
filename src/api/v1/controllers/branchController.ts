@@ -8,6 +8,8 @@
 import { Request, Response, NextFunction } from "express";
 import * as branchService from "../services/branchService";
 import { Branch } from "../models/branchModel"
+import { successResponse } from "../models/responseModel";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
 
 /**
  * @description Create a new branch.
@@ -22,7 +24,9 @@ export const createBranch = async (
     try {
         const newBranch: Branch = await branchService.createBranch(req.body);
 
-        res.status(201).json({ message: "Branch Created", data: newBranch });
+        res.status(HTTP_STATUS.CREATED).json(
+            successResponse(newBranch, "Branch Created")
+        );
     } catch (error) {
         next(error);
     }
@@ -41,7 +45,9 @@ export const getAllBranches = async (
     try {
         const branches: Branch[] = await branchService.getAllBranches();
 
-        res.status(200).json({ message: "Branches Retrieved", data: branches });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(branches, "Branches Retrieved")
+        );
     } catch (error) {
         next(error);
     }
@@ -77,9 +83,14 @@ export const updateBranch = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const updatedBranch: Branch = await branchService.updateBranch(req.params.id, req.body);
+        const updatedBranch: Branch = await branchService.updateBranch(
+            req.params.id,
+            req.body
+        );
 
-        res.status(200).json({ message: "Branch Updated", data: updatedBranch });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(updatedBranch, "Branch Updated")
+        );
     } catch (error) {
         next(error);
     }
@@ -98,7 +109,7 @@ export const deleteBranch = async (
     try {
         await branchService.deleteBranch(req.params.id);
 
-        res.status(200).json({ message: "Branch Deleted" });
+        res.status(HTTP_STATUS.OK).json(successResponse("Branch Deleted"));
     } catch (error) {
         next(error);
     }

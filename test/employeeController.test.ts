@@ -1,3 +1,13 @@
+jest.mock("../src/api/v1/services/employeeService", () => ({
+    getAllEmployees: jest.fn(),
+    createEmployee: jest.fn(),
+    getEmployeeById: jest.fn(),
+    updateEmployee: jest.fn(),
+    deleteEmployee: jest.fn(),
+    getEmployeesByBranch: jest.fn(),
+    getEmployeesByDepartment: jest.fn(),
+}));
+
 import { Request, Response, NextFunction } from "express";
 import * as employeeController from "../src/api/v1/controllers/employeeController";
 import * as employeeService from "../src/api/v1/services/employeeService";
@@ -39,6 +49,7 @@ describe("Employeee Controller", () => {
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: "Employee Created",
                 data: mockNewEmployee,
+                status: "success",
             });
         });
     });
@@ -47,12 +58,12 @@ describe("Employeee Controller", () => {
         it("should handle successful operation", async () => {
             const mockEmployees: Employee[] = [{ 
                 id: "1",
-                name: "Test Name",
-                position: "Test Position",
-                department: "Test Department",
-                email: "Test Email",
-                phone: "Test Phone",
-                branchId: "Test Branch Id",
+                name: "John Doe",
+                position: "Manager",
+                department: "Sales",
+                email: "john.doe@example.com",
+                phone: "123-456-7890",
+                branchId: "1",
             }];
             (employeeService.getAllEmployees as jest.Mock).mockResolvedValue(mockEmployees);
 
@@ -65,6 +76,7 @@ describe("Employeee Controller", () => {
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: "Employees Retrieved",
                 data: mockEmployees,
+                status: "success",
             });
         });
     });
@@ -73,12 +85,12 @@ describe("Employeee Controller", () => {
         it("should handle successful operation", async () => {
             const mockEmployee: Employee = { 
                 id: "1",
-                name: "Test Name",
-                position: "Test Position",
-                department: "Test Department",
-                email: "Test Email",
-                phone: "Test Phone",
-                branchId: "Test Branch Id",
+                name: "John Doe",
+                position: "Manager",
+                department: "Sales",
+                email: "john.doe@example.com",
+                phone: "123-456-7890",
+                branchId: "1",
             };
             (employeeService.getEmployeeById as jest.Mock).mockResolvedValue(mockEmployee);
 
@@ -99,12 +111,12 @@ describe("Employeee Controller", () => {
         it("should handle successful operation", async () => {
             const mockEmployee: Employee = { 
                 id: "1",
-                name: "Test Name",
-                position: "Test Position",
-                department: "Test Department",
-                email: "Test Email",
-                phone: "Test Phone",
-                branchId: "Test Branch Id",
+                name: "John Doe",
+                position: "Manager",
+                department: "Sales",
+                email: "john.doe@example.com",
+                phone: "123-456-7890",
+                branchId: "1",
             };
             (employeeService.updateEmployee as jest.Mock).mockResolvedValue(mockEmployee);
 
@@ -117,6 +129,7 @@ describe("Employeee Controller", () => {
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: "Employee Updated",
                 data: mockEmployee,
+                status: "success",
             });
         });
     });
@@ -133,7 +146,8 @@ describe("Employeee Controller", () => {
             );
             expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith({
-                message: "Employee Deleted",
+                data: "Employee Deleted",
+                status: "success",
             });
         });
     });
@@ -143,12 +157,12 @@ describe("Employeee Controller", () => {
         it("should handle successful operation", async () => {
             const mockEmployees: Employee[] = [{ 
                 id: "1",
-                name: "Test Name",
-                position: "Test Position",
-                department: "Test Department",
-                email: "Test Email",
-                phone: "Test Phone",
-                branchId: "Test Branch Id",
+                name: "John Doe",
+                position: "Manager",
+                department: "Sales",
+                email: "john.doe@example.com",
+                phone: "123-456-7890",
+                branchId: "1",
             }];
             (employeeService.getEmployeesByBranch as jest.Mock).mockResolvedValue(mockEmployees);
 
@@ -169,12 +183,12 @@ describe("Employeee Controller", () => {
         it("should handle successful operation", async () => {
             const mockEmployees: Employee[] = [{ 
                 id: "1",
-                name: "Test Name",
-                position: "Test Position",
-                department: "Test Department",
-                email: "Test Email",
-                phone: "Test Phone",
-                branchId: "Test Branch Id",
+                name: "John Doe",
+                position: "Manager",
+                department: "Sales",
+                email: "john.doe@example.com",
+                phone: "123-456-7890",
+                branchId: "1",
             }];
             (employeeService.getEmployeesByDepartment as jest.Mock).mockResolvedValue(mockEmployees);
 
