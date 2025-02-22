@@ -8,17 +8,9 @@ import {
     getEmployeesByBranchSchema,
     getEmployeesByDepartmentSchema, }
     from "../src/api/v1/validations/employeeValidation";
-import {
-    postBranchSchema,
-    getBranchByIdSchema,
-    putBranchSchema,
-    deleteBranchSchema, }
-    from "../src/api/v1/validations/branchValidation";
-import { Branch } from "../src/api/v1/data/branchData"
-import { Employee } from "../src/api/v1/data/employeeData"
 
 describe("validate function for employees", () => {
-    
+
     describe("postEmployeeSchema", () => {
         it("should not throw an error for valid employee data", () => {
             const data = {
