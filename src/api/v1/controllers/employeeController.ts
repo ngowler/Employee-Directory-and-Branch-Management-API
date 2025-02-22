@@ -24,7 +24,9 @@ export const createEmployee = async (
     try {
         const newEmployee: Employee = await employeeService.createEmployee(req.body);
 
-        res.status(201).json({ message: "Employee Created", data: newEmployee });
+        res.status(HTTP_STATUS.CREATED).json(
+            successResponse(newEmployee, "Employee Created")
+        );
     } catch (error) {
         next(error);
     }
@@ -43,7 +45,9 @@ export const getAllEmployees = async (
     try {
         const employees: Employee[] = await employeeService.getAllEmployees();
 
-        res.status(200).json({ message: "Employees Retrieved", data: employees });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(employees, "Employees Retrieved")
+        );
     } catch (error) {
         next(error);
     }
@@ -79,9 +83,14 @@ export const updateEmployee = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const updatedEmployee: Employee = await employeeService.updateEmployee(req.params.id, req.body);
+        const updatedEmployee: Employee = await employeeService.updateEmployee(
+            req.params.id,
+            req.body
+        );
 
-        res.status(200).json({ message: "Employee Updated", data: updatedEmployee });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(updatedEmployee, "Employee Updated")
+        );
     } catch (error) {
         next(error);
     }
@@ -100,7 +109,7 @@ export const deleteEmployee = async (
     try {
         await employeeService.deleteEmployee(req.params.id);
 
-        res.status(200).json({ message: "Employee Deleted" });
+        res.status(HTTP_STATUS.OK).json(successResponse("Employee Deleted"));
     } catch (error) {
         next(error);
     }

@@ -1,9 +1,9 @@
 import express, { Express } from "express";
 import setupSwagger from "../config/swagger";
-// Importing morgan
 import morgan from "morgan";
 import employeeRoutes from "./api/v1/routes/employeeRoutes"
 import branchRoutes from "./api/v1/routes/branchRoutes"
+import errorHandler from "./api/v1/middleware/errorHandler";
 
 const app: Express = express();
 app.use(express.json());
@@ -28,5 +28,7 @@ app.get('/health', (req, res) => {
 
 app.use("/api/v1/employee", employeeRoutes);
 app.use("/api/v1/branch", branchRoutes);
+
+app.use(errorHandler);
 
 export default app;
