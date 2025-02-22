@@ -1,7 +1,7 @@
 jest.mock("../src/api/v1/services/branchService", () => ({
     createBranch: jest.fn(),
     getAllBranches: jest.fn(),
-    getBranchById: jest.fn(),
+    getBranchesByField: jest.fn(),
     updateBranch: jest.fn(),
     deleteBranch: jest.fn(),
 }));
@@ -9,6 +9,7 @@ import { Request, Response, NextFunction } from "express";
 import * as branchController from "../src/api/v1/controllers/branchController";
 import * as branchService from "../src/api/v1/services/branchService";
 import { Branch } from "src/api/v1/models/branchModel";
+import { HTTP_STATUS } from "../src/constants/httpConstants";
 
 jest.mock("../src/api/v1/services/branchService");
 
@@ -39,7 +40,7 @@ describe("Branch Controller", () => {
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(201);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.CREATED);
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: "Branch Created",
                 data: mockNewBranch,
@@ -63,7 +64,7 @@ describe("Branch Controller", () => {
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: "Branches Retrieved",
                 data: mockBranches,
@@ -80,17 +81,21 @@ describe("Branch Controller", () => {
                 address: "Test Address",
                 phone: "Test Phone",
             };
-            (branchService.getBranchById as jest.Mock).mockResolvedValue(mockBranch);
+            (branchService.getBranchesByField as jest.Mock).mockResolvedValue(mockBranch);
+
+            mockReq.params = { id: "1" };
+            mockReq.query = { limit: "10" };
 
             await branchController.getBranchById(
                 mockReq as Request,
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
-                message: "Branch Retrieved",
+                message: `branch with ID "1" retrieved successfully`,
                 data: mockBranch,
+                status: "success",
             });
         });
     });
@@ -110,7 +115,7 @@ describe("Branch Controller", () => {
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: "Branch Updated",
                 data: mockBranch,
@@ -129,7 +134,7 @@ describe("Branch Controller", () => {
                 mockRes as Response,
                 mockNext,
             );
-            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS.OK);
             expect(mockRes.json).toHaveBeenCalledWith({
                 data: "Branch Deleted",
                 status: "success",

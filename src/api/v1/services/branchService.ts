@@ -5,24 +5,29 @@
  * currently store branches in-memory but could be extended to use a database.
  */
 import { Branch } from "../models/branchModel"
-import branches from "../data/branchData"
+import {
+    getDocuments,
+    createDocument,
+    updateDocument,
+    deleteDocument,
+    getDocumentsByFieldValue,
+} from "../repositories/firestoreRepository";
+import { ServiceError } from "../errors/errors";
+import {
+    getErrorMessage,
+    getErrorCode,
+} from "../utils/errorUtils";
+
+const COLLECTION = "branches";
 
 /**
  * @description Create a new branch.
  * @param {Partial<Branch>} branch - The branch data.
  * @returns {Promise<Branch>}
  */
-export const createBranch = async (branch: {
-    name: string,
-    address: string,
-    phone: string,
-}): Promise<Branch> => {
-    if (!branch.name || !branch.address || !branch.phone) {
-        throw new Error("All fields (name, address, phone) must be provided");
-    }
-    const newBranch: Branch = { id: Date.now().toString(), ...branch };
-    branches.push(newBranch);
-    return newBranch;
+export const createBranch = async (branch: Partial<Branch>): Promise<Branch> => {
+    const id: string = await createDocument(COLLECTION, branch);
+    return { id, ...branch } as Branch;
 };
 
 /**
@@ -30,7 +35,14 @@ export const createBranch = async (branch: {
  * @returns {Promise<Branch[]>}
  */
 export const getAllBranches = async (): Promise<Branch[]> => {
-    return branches;
+    const snapshot: FirebaseFirestore.QuerySnapshot = await getDocuments(
+        COLLECTION
+    );
+
+    return snapshot.docs.map((doc) => {
+        const data: FirebaseFirestore.DocumentData = doc.data();
+        return { id: doc.id, ...data } as Branch;
+    });
 };
 
 /**
@@ -39,13 +51,30 @@ export const getAllBranches = async (): Promise<Branch[]> => {
  * @returns {Promise<Branch[]>} Array of branches matching the criteria.
  * @throws {Error} If no branches with the given field value are found or if the query fails.
  */
-export const getBranchById = async (id: string): Promise<Branch> => {
-    const index: number = branches.findIndex((i) => i.id === id);
-    if (index === -1) {
-        throw new Error(`Branch with ID ${id} not found`)
-    }
+export const getBranchesByField = async (
+    fieldName: string,
+    fieldValue: any,
+    limit?: number
+): Promise<Branch[]> => {
+    try {
+        const snapshot: FirebaseFirestore.QuerySnapshot =
+            await getDocumentsByFieldValue(
+                COLLECTION,
+                fieldName,
+                fieldValue,
+                limit
+            );
 
-    return branches[index];
+        return snapshot.docs.map((doc) => {
+            const data: FirebaseFirestore.DocumentData = doc.data();
+            return { id: doc.id, ...data } as Branch;
+        });
+    } catch (error: unknown) {
+        throw new ServiceError(
+            `Failed to get branch ${fieldValue}: ${getErrorMessage(error)}`,
+            getErrorCode(error)
+        );
+    }
 };
 
 /**
@@ -55,24 +84,19 @@ export const getBranchById = async (id: string): Promise<Branch> => {
  * @returns {Promise<Branch>}
  * @throws {Error} If the branch with the given ID is not found.
  */
-export const updateBranch = async (id: string, branch: {
-    name?: string,
-    address?: string,
-    phone?: string,
-}): Promise<Branch> => {
-    const index: number = branches.findIndex((i) => i.id === id);
-    if (index === -1) {
-        throw new Error(`Branch with ID ${id} not found`)
+export const updateBranch = async (
+    id: string,
+    branch: Partial<Branch>
+): Promise<Branch> => {
+    try {
+        await updateDocument(COLLECTION, id, branch);
+        return { id, ...branch } as Branch;
+    } catch (error: unknown) {
+        throw new ServiceError(
+            `Failed to update branch ${id}: ${getErrorMessage(error)}`,
+            getErrorCode(error)
+        );
     }
-
-    const currentBranch: Branch = branches[index];
-
-    const updatedBranch: Branch = {
-        ...currentBranch,
-        ...branch
-    };
-
-    return updatedBranch;
 };
 
 /**
@@ -82,10 +106,12 @@ export const updateBranch = async (id: string, branch: {
  * @throws {Error} If the branch with the given ID is not found.
  */
 export const deleteBranch = async (id: string): Promise<void> => {
-    const index: number = branches.findIndex((i) => i.id === id);
-    if (index === -1) {
-        throw new Error(`Branch with ID ${id} not found`)
+    try {
+        await deleteDocument(COLLECTION, id);
+    } catch (error: unknown) {
+        throw new ServiceError(
+            `Failed to delete branch ${id}: ${getErrorMessage(error)}`,
+            getErrorCode(error)
+        );
     }
-
-    branches.splice(index, 1);
 };
