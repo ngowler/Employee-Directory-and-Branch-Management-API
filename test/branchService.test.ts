@@ -19,7 +19,7 @@ import {
     DocumentSnapshot,
     DocumentData,
 } from "firebase-admin/firestore";
-import { RepositoryError, ServiceError } from "../src/api/v1/errors/errors";
+import { ServiceError } from "../src/api/v1/errors/errors";
 
 jest.mock("../src/api/v1/repositories/firestoreRepository", () => ({
     getDocuments: jest.fn(),
@@ -56,7 +56,7 @@ describe("Branch Service", () => {
         });
 
         it("should return all branches", async () => {
-            const mockDate = new Date();
+            const mockDate: Date = new Date();
             const mockDocs: QueryDocumentSnapshot[] = [
                 {
                     id: "branch1",
@@ -185,8 +185,8 @@ describe("Branch Service", () => {
                 address: "123 Main Street",
             };
 
-            const id = "branch1";
-            const mockError = new Error("Repository error");
+            const id: string = "branch1";
+            const mockError: Error = new Error("Repository error");
 
             (updateDocument as jest.Mock).mockRejectedValue(mockError);
 
@@ -204,7 +204,7 @@ describe("Branch Service", () => {
         });
 
         it("should delete an existing branch", async () => {
-            const id = "branch1";
+            const id: string = "branch1";
             (deleteDocument as jest.Mock).mockResolvedValue(undefined);
 
             await deleteBranch(id);
@@ -213,8 +213,8 @@ describe("Branch Service", () => {
         });
 
         it("should handle delete error", async () => {
-            const id = "branch1";
-            const mockError = new Error("Repository error");
+            const id: string = "branch1";
+            const mockError: Error = new Error("Repository error");
 
             (deleteDocument as jest.Mock).mockRejectedValue(mockError);
 

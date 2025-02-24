@@ -30,7 +30,7 @@ export const postEmployeeSchema: ObjectSchema = Joi.object({
     createdAt: Joi.date(),
 });
 
-export const getEmployeeByIdSchema = Joi.object({
+export const getEmployeeByIdSchema: ObjectSchema = Joi.object({
     id: Joi.string().required().messages({
             "any.required": "ID is required",
             "string.empty": "Employee ID cannot be empty",

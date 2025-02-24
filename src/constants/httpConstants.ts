@@ -1,4 +1,4 @@
-export const HTTP_STATUS = {
+export const HTTP_STATUS: { readonly [key: string]: number } = {
     OK: 200,
     CREATED: 201,
     BAD_REQUEST: 400,

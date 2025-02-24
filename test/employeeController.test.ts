@@ -120,7 +120,7 @@ describe("Employeee Controller", () => {
         });
 
         it("should handle error scenario", async () => {
-            const errorMessage = "Error retrieving employee";
+            const errorMessage: string = "Error retrieving employee";
             (employeeService.getEmployeeById as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
             mockReq.params = { id: "1" };
@@ -162,7 +162,7 @@ describe("Employeee Controller", () => {
         });
 
         it("should handle error scenario", async () => {
-            const errorMessage = "Error updating employee";
+            const errorMessage: string = "Error updating employee";
             (employeeService.updateEmployee as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
             mockReq.params = { id: "1" };
@@ -193,7 +193,7 @@ describe("Employeee Controller", () => {
         });
 
         it("should handle error scenario", async () => {
-            const errorMessage = "Error deleting employee";
+            const errorMessage: string = "Error deleting employee";
             (employeeService.deleteEmployee as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
             mockReq.params = { id: "1" };
@@ -236,7 +236,7 @@ describe("Employeee Controller", () => {
         });
 
         it("should handle error scenario", async () => {
-            const errorMessage = "Error retrieving employees by branch";
+            const errorMessage: string = "Error retrieving employees by branch";
             (employeeService.getEmployeesByField as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
             mockReq.params = { branchId: "1" };
@@ -278,7 +278,7 @@ describe("Employeee Controller", () => {
         });
 
         it("should handle error scenario", async () => {
-            const errorMessage = "Error retrieving employees by department";
+            const errorMessage: string = "Error retrieving employees by department";
             (employeeService.getEmployeesByField as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
             mockReq.params = { department: "Sales" };

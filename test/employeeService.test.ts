@@ -59,7 +59,7 @@ describe("Employee Service", () => {
         });
 
         it("should return all employees", async () => {
-            const mockDate = new Date();
+            const mockDate: Date = new Date();
             const mockDocs: QueryDocumentSnapshot[] = [
                 {
                     id: "employee1",
@@ -99,7 +99,7 @@ describe("Employee Service", () => {
         });
 
         it("should return employee by ID", async () => {
-            const mockDate = new Date();
+            const mockDate: Date = new Date();
             const mockDoc: DocumentSnapshot = {
                 id: "employee1",
                 exists: true,
@@ -161,9 +161,9 @@ describe("Employee Service", () => {
         });
 
         it("should return employees matching the field value", async () => {
-            const mockDate = new Date();
-            const mockFieldName = "department";
-            const mockFieldValue = "engineering";
+            const mockDate: Date = new Date();
+            const mockFieldName: string = "department";
+            const mockFieldValue: string = "engineering";
             const mockDocs: QueryDocumentSnapshot[] = [
                 {
                     id: "employee1",
@@ -204,8 +204,8 @@ describe("Employee Service", () => {
         });
 
         it("should handle repository error", async () => {
-            const mockFieldName = "department";
-            const mockFieldValue = "nonexistent";
+            const mockFieldName: string = "department";
+            const mockFieldValue: string = "nonexistent";
             const mockError = new Error("Repository error");
 
             (getDocumentsByFieldValue as jest.Mock).mockRejectedValue(mockError);
@@ -234,7 +234,7 @@ describe("Employee Service", () => {
                 position: "Senior Engineer",
             };
 
-            const id = "employee1";
+            const id: string = "employee1";
             (updateDocument as jest.Mock).mockResolvedValue(undefined);
 
             const result: Employee = await updateEmployee(id, mockEmployee);
@@ -249,8 +249,8 @@ describe("Employee Service", () => {
                 position: "Senior Engineer",
             };
 
-            const id = "employee1";
-            const mockError = new Error("Repository error");
+            const id: string = "employee1";
+            const mockError: Error = new Error("Repository error");
 
             (updateDocument as jest.Mock).mockRejectedValue(mockError);
 
@@ -268,7 +268,7 @@ describe("Employee Service", () => {
         });
 
         it("should delete an existing employee", async () => {
-            const id = "employee1";
+            const id: string = "employee1";
             (deleteDocument as jest.Mock).mockResolvedValue(undefined);
 
             await deleteEmployee(id);
@@ -277,8 +277,8 @@ describe("Employee Service", () => {
         });
 
         it("should handle delete error", async () => {
-            const id = "employee1";
-            const mockError = new Error("Repository error");
+            const id: string = "employee1";
+            const mockError: Error = new Error("Repository error");
 
             (deleteDocument as jest.Mock).mockRejectedValue(mockError);
 
