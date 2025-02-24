@@ -54,7 +54,7 @@ export const getAllEmployees = async (
 };
 
 /**
- * @description Get employees by id.
+ * @description Get employee by id.
  * @route GET /employee/:id
  * @returns {Promise<void>}
  */
@@ -65,15 +65,8 @@ export const getEmployeeById = async (
 ): Promise<void> => {
     try {
         const { id } = req.params;
-        const limit = req.query.limit
-            ? parseInt(req.query.limit as string)
-            : undefined;
 
-        const employee: Employee[] = await employeeService.getEmployeesByField(
-            "id",
-            id,
-            limit
-        );
+        const employee: Employee = await employeeService.getEmployeeById(id);
 
         res.status(HTTP_STATUS.OK).json(
             successResponse(
@@ -97,7 +90,7 @@ export const updateEmployee = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const updatedEmployee: Employee[] = await employeeService.getEmployeesByField(
+        const updatedEmployee: Employee = await employeeService.updateEmployee(
             req.params.id,
             req.body
         );

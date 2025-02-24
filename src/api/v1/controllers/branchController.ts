@@ -65,15 +65,8 @@ export const getBranchById = async (
 ): Promise<void> => {
     try {
         const { id } = req.params;
-        const limit = req.query.limit
-            ? parseInt(req.query.limit as string)
-            : undefined;
 
-        const branch: Branch[] = await branchService.getBranchesByField(
-            "id",
-            id,
-            limit
-        );
+        const branch: Branch = await branchService.getBranchById(id);
 
         res.status(HTTP_STATUS.OK).json(
             successResponse(

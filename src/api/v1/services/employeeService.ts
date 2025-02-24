@@ -8,6 +8,7 @@ import { Employee } from "../models/employeeModel"
 import {
     getDocuments,
     createDocument,
+    getDocumentById,
     updateDocument,
     deleteDocument,
     getDocumentsByFieldValue,
@@ -43,6 +44,36 @@ export const getAllEmployees = async (): Promise<Employee[]> => {
         const data: FirebaseFirestore.DocumentData = doc.data();
         return { id: doc.id, ...data } as Employee;
     });
+};
+
+/**
+ * @description Get employee by a specific ID.
+ * @param {string} id - The ID of the field to filter by.
+ * @returns {Promise<Employee>} The employee matching the given ID.
+ * @throws {ServiceError} If no employees with the given ID are found or if the query fails.
+ */
+export const getEmployeeById = async (
+    id: string,
+): Promise<Employee> => {
+    try {
+        const doc: FirebaseFirestore.DocumentSnapshot = await getDocumentById(COLLECTION, id);
+
+        if (!doc.exists) {
+            throw new Error(`Document with ID ${id} does not exist`);
+        }
+
+        const data: FirebaseFirestore.DocumentData | undefined = doc.data();
+        if (!data) {
+            throw new Error(`Failed to retrieve data for document with ID ${id}`);
+        }
+
+        return { id, ...data } as Employee;
+    } catch (error: unknown) {
+        throw new ServiceError(
+            `Failed to get employee ${id}: ${getErrorMessage(error)}`,
+            getErrorCode(error)
+        );
+    }
 };
 
 /**

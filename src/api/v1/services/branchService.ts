@@ -10,7 +10,7 @@ import {
     createDocument,
     updateDocument,
     deleteDocument,
-    getDocumentsByFieldValue,
+    getDocumentById,
 } from "../repositories/firestoreRepository";
 import { ServiceError } from "../errors/errors";
 import {
@@ -46,32 +46,30 @@ export const getAllBranches = async (): Promise<Branch[]> => {
 };
 
 /**
- * @description Get branches by a specific field value.
+ * @description Get branch by a specific ID.
  * @param {string} id - The ID of the field to filter by.
- * @returns {Promise<Branch[]>} Array of branches matching the criteria.
- * @throws {Error} If no branches with the given field value are found or if the query fails.
+ * @returns {Promise<Branch>} The branch matching the given ID.
+ * @throws {Error} If no branches with the given ID are found or if the query fails.
  */
-export const getBranchesByField = async (
-    fieldName: string,
-    fieldValue: any,
-    limit?: number
-): Promise<Branch[]> => {
+export const getBranchById = async (
+    id: string,
+): Promise<Branch> => {
     try {
-        const snapshot: FirebaseFirestore.QuerySnapshot =
-            await getDocumentsByFieldValue(
-                COLLECTION,
-                fieldName,
-                fieldValue,
-                limit
-            );
+        const doc: FirebaseFirestore.DocumentSnapshot = await getDocumentById(COLLECTION, id);
 
-        return snapshot.docs.map((doc) => {
-            const data: FirebaseFirestore.DocumentData = doc.data();
-            return { id: doc.id, ...data } as Branch;
-        });
+        if (!doc.exists) {
+            throw new Error(`Document with ID ${id} does not exist`);
+        }
+
+        const data: FirebaseFirestore.DocumentData | undefined = doc.data();
+        if (!data) {
+            throw new Error(`Failed to retrieve data for document with ID ${id}`);
+        }
+
+        return { id, ...data } as Branch;
     } catch (error: unknown) {
         throw new ServiceError(
-            `Failed to get branch ${fieldValue}: ${getErrorMessage(error)}`,
+            `Failed to get branch ${id}: ${getErrorMessage(error)}`,
             getErrorCode(error)
         );
     }

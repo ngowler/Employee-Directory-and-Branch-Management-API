@@ -1,6 +1,7 @@
 import {
     createEmployee,
     getAllEmployees,
+    getEmployeeById,
     getEmployeesByField,
     updateEmployee,
     deleteEmployee,
@@ -8,6 +9,7 @@ import {
 import {
     getDocuments,
     createDocument,
+    getDocumentById,
     updateDocument,
     deleteDocument,
     getDocumentsByFieldValue,
@@ -16,13 +18,15 @@ import { Employee } from "../src/api/v1/models/employeeModel";
 import {
     QuerySnapshot,
     QueryDocumentSnapshot,
+    DocumentSnapshot,
     DocumentData,
 } from "firebase-admin/firestore";
-import { RepositoryError, ServiceError } from "../src/api/v1/errors/errors";
+import { ServiceError } from "../src/api/v1/errors/errors";
 
 jest.mock("../src/api/v1/repositories/firestoreRepository", () => ({
     getDocuments: jest.fn(),
     createDocument: jest.fn(),
+    getDocumentById: jest.fn(),
     updateDocument: jest.fn(),
     deleteDocument: jest.fn(),
     getDocumentsByFieldValue: jest.fn(),
@@ -86,6 +90,68 @@ describe("Employee Service", () => {
                 createdAt: mockDate,
                 updatedAt: mockDate,
             });
+        });
+    });
+
+    describe("getEmployeeById", () => {
+        beforeEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it("should return employee by ID", async () => {
+            const mockDate = new Date();
+            const mockDoc: DocumentSnapshot = {
+                id: "employee1",
+                exists: true,
+                data: () =>
+                    ({
+                        name: "Employee 1",
+                        position: "Manager",
+                        createdAt: mockDate,
+                        updatedAt: mockDate,
+                    } as DocumentData),
+            } as DocumentSnapshot;
+
+            (getDocumentById as jest.Mock).mockResolvedValue(mockDoc);
+
+            const result: Employee = await getEmployeeById("employee1");
+
+            expect(getDocumentById).toHaveBeenCalledWith("employees", "employee1");
+            expect(result).toEqual({
+                id: "employee1",
+                name: "Employee 1",
+                position: "Manager",
+                createdAt: mockDate,
+                updatedAt: mockDate,
+            });
+        });
+
+        it("should handle non-existent document", async () => {
+            const mockDoc: DocumentSnapshot = {
+                id: "employee1",
+                exists: false,
+                data: () => undefined,
+            } as DocumentSnapshot;
+
+            (getDocumentById as jest.Mock).mockResolvedValue(mockDoc);
+
+            await expect(getEmployeeById("employee1")).rejects.toThrow(
+                new ServiceError("Failed to get employee employee1: Document with ID employee1 does not exist", "ERROR_CODE")
+            );
+
+            expect(getDocumentById).toHaveBeenCalledWith("employees", "employee1");
+        });
+
+        it("should handle repository error", async () => {
+            const mockError = new Error("Repository error");
+
+            (getDocumentById as jest.Mock).mockRejectedValue(mockError);
+
+            await expect(getEmployeeById("employee1")).rejects.toThrow(
+                new ServiceError(`Failed to get employee employee1: ${mockError.message}`, "ERROR_CODE")
+            );
+
+            expect(getDocumentById).toHaveBeenCalledWith("employees", "employee1");
         });
     });
 
@@ -224,3 +290,4 @@ describe("Employee Service", () => {
         });
     });
 });
+    

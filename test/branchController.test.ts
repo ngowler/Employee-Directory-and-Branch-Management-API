@@ -1,14 +1,15 @@
 jest.mock("../src/api/v1/services/branchService", () => ({
     createBranch: jest.fn(),
     getAllBranches: jest.fn(),
-    getBranchesByField: jest.fn(),
+    getBranchById: jest.fn(),
     updateBranch: jest.fn(),
     deleteBranch: jest.fn(),
 }));
+
 import { Request, Response, NextFunction } from "express";
 import * as branchController from "../src/api/v1/controllers/branchController";
 import * as branchService from "../src/api/v1/services/branchService";
-import { Branch } from "src/api/v1/models/branchModel";
+import { Branch } from "../src/api/v1/models/branchModel";
 import { HTTP_STATUS } from "../src/constants/httpConstants";
 
 jest.mock("../src/api/v1/services/branchService");
@@ -81,10 +82,9 @@ describe("Branch Controller", () => {
                 address: "Test Address",
                 phone: "Test Phone",
             };
-            (branchService.getBranchesByField as jest.Mock).mockResolvedValue(mockBranch);
+            (branchService.getBranchById as jest.Mock).mockResolvedValue(mockBranch);
 
             mockReq.params = { id: "1" };
-            mockReq.query = { limit: "10" };
 
             await branchController.getBranchById(
                 mockReq as Request,
@@ -126,7 +126,6 @@ describe("Branch Controller", () => {
 
     describe("deleteBranch", () => {
         it("should handle successful operation", async () => {
-            
             (branchService.deleteBranch as jest.Mock).mockResolvedValueOnce(true);
 
             await branchController.deleteBranch(
