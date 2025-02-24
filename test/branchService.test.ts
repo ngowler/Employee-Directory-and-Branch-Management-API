@@ -170,7 +170,7 @@ describe("Branch Service", () => {
                 address: "123 Main Street",
             };
 
-            const id = "branch1";
+            const id: string = "branch1";
             (updateDocument as jest.Mock).mockResolvedValue(undefined);
 
             const result: Branch = await updateBranch(id, mockBranch);
