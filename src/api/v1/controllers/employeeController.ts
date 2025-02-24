@@ -136,7 +136,7 @@ export const getEmployeesByBranch = async (
 ): Promise<void> => {
     try {
         const { branchId } = req.params;
-        const limit = req.query.limit
+        const limit: number | undefined = req.query.limit
             ? parseInt(req.query.limit as string)
             : undefined;
 
@@ -169,7 +169,7 @@ export const getEmployeesByDepartment = async (
 ): Promise<void> => {
     try {
         const { department } = req.params;
-        const limit = req.query.limit
+        const limit: number | undefined = req.query.limit
             ? parseInt(req.query.limit as string)
             : undefined;
 

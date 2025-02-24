@@ -19,7 +19,7 @@ import {
     getErrorCode,
 } from "../utils/errorUtils";
 
-const COLLECTION = "employees";
+const COLLECTION: string = "employees";
 
 /**
  * @description Create a new employee.
@@ -84,7 +84,7 @@ export const getEmployeeById = async (
  */
 export const getEmployeesByField = async (
     fieldName: string,
-    fieldValue: any,
+    fieldValue: string | number,
     limit?: number
 ): Promise<Employee[]> => {
     try {

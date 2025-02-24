@@ -18,7 +18,7 @@ import {
     getErrorCode,
 } from "../utils/errorUtils";
 
-const COLLECTION = "branches";
+const COLLECTION: string = "branches";
 
 /**
  * @description Create a new branch.

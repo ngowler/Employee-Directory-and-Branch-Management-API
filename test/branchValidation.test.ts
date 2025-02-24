@@ -8,6 +8,9 @@ import {
     from "../src/api/v1/validations/branchValidation";
 
 describe("validate function for branches", () => {
+    interface Data {
+        [key: string]: string | Date;
+    }
 
     describe("postBranchSchema", () => {
         it("should not throw an error for valid branch data", () => {
@@ -40,24 +43,24 @@ describe("validate function for branches", () => {
 
     describe("getBranchByIdSchema", () => {
         it("should not throw an error for valid ID", () => {
-            const data = { id: "1" };
+            const data: Data = { id: "1" };
             expect(() => validate(getBranchByIdSchema, data)).not.toThrow();
         });
 
         it("should throw an error for missing ID", () => {
-            const data = {};
+            const data: Data = {};
             expect(() => validate(getBranchByIdSchema, data)).toThrow("ID is required");
         });
 
         it("should throw an error for empty ID", () => {
-            const data = { id: "" };
+            const data: Data = { id: "" };
             expect(() => validate(getBranchByIdSchema, data)).toThrow("Branch ID cannot be empty");
         });
     });
 
     describe("putBranchSchema", () => {
         it("should not throw an error for valid branch data", () => {
-            const data = {
+            const data: Data = {
                 id: "1",
                 name: "Main Branch",
                 address: "123 Main St",
@@ -68,7 +71,7 @@ describe("validate function for branches", () => {
         });
 
         it("should throw an error for missing ID", () => {
-            const data = {
+            const data: Data = {
                 name: "Main Branch",
                 address: "123 Main St",
                 phone: "123-456-7890",
@@ -77,7 +80,7 @@ describe("validate function for branches", () => {
         });
 
         it("should throw an error for empty ID", () => {
-            const data = {
+            const data: Data = {
                 id: "",
                 name: "Main Branch",
                 address: "123 Main St",
@@ -89,17 +92,17 @@ describe("validate function for branches", () => {
 
     describe("deleteBranchSchema", () => {
         it("should not throw an error for valid ID", () => {
-            const data = { id: "1" };
+            const data: Data = { id: "1" };
             expect(() => validate(deleteBranchSchema, data)).not.toThrow();
         });
 
         it("should throw an error for missing ID", () => {
-            const data = {};
+            const data: Data = {};
             expect(() => validate(deleteBranchSchema, data)).toThrow("ID is required");
         });
 
         it("should throw an error for empty ID", () => {
-            const data = { id: "" };
+            const data: Data = { id: "" };
             expect(() => validate(deleteBranchSchema, data)).toThrow("Branch ID cannot be empty");
         });
     });
