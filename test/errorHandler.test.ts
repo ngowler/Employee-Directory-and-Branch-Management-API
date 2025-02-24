@@ -23,7 +23,7 @@ describe("Error Handler Middleware", () => {
     });
 
     it("should handle RepositoryError with custom status code and error code", () => {
-        const testError = new RepositoryError(
+        const testError: RepositoryError = new RepositoryError(
             "Document not found",
             "DOCUMENT_NOT_FOUND",
             404
@@ -47,7 +47,7 @@ describe("Error Handler Middleware", () => {
     });
 
     it("should handle ServiceError with custom status code and error code", () => {
-        const testError = new ServiceError(
+        const testError: ServiceError = new ServiceError(
             "Invalid input",
             "INVALID_INPUT",
             400
@@ -71,7 +71,7 @@ describe("Error Handler Middleware", () => {
     });
 
     it("should handle ValidationError with custom status code and error code", () => {
-        const testError = new ValidationError(
+        const testError: ValidationError = new ValidationError(
             "Invalid input",
             "INVALID_INPUT",
             400
@@ -95,7 +95,7 @@ describe("Error Handler Middleware", () => {
     });
 
     it("should handle basic Error object with default status and code", () => {
-        const testError = new Error("Basic error");
+        const testError: Error = new Error("Basic error");
 
         errorHandler(
             testError,
@@ -113,7 +113,7 @@ describe("Error Handler Middleware", () => {
     });
 
     it("should handle malformed Error objects", () => {
-        const testError = {} as Error;
+        const testError: Error = {} as Error;
 
         errorHandler(
             testError,

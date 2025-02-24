@@ -157,7 +157,7 @@ describe("validate function for employees", () => {
 
         it("should throw an error for empty department", () => {
             const data: Data = { department: "" };
-            expect(() => validate(getEmployeesByDepartmentSchema, data)).toThrow
+            expect(() => validate(getEmployeesByDepartmentSchema, data)).toThrow();
         });
     });
 });
