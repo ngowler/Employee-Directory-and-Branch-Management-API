@@ -96,8 +96,8 @@ describe("Branch Service", () => {
         });
     
         it("should return the branch matching the given ID", async () => {
-            const mockDate = new Date();
-            const mockId = "branch1";
+            const mockDate: Date = new Date();
+            const mockId: string = "branch1";
             const mockDoc: DocumentSnapshot = {
                 id: mockId,
                 exists: true,
@@ -125,7 +125,7 @@ describe("Branch Service", () => {
         });
     
         it("should handle non-existent document error", async () => {
-            const mockId = "nonexistent";
+            const mockId: string = "nonexistent";
     
             const mockDoc: DocumentSnapshot = {
                 id: mockId,
@@ -146,8 +146,8 @@ describe("Branch Service", () => {
         });
     
         it("should handle repository error", async () => {
-            const mockId = "branch1";
-            const mockError = new Error("Repository error");
+            const mockId: string = "branch1";
+            const mockError: Error = new Error("Repository error");
     
             (getDocumentById as jest.Mock).mockRejectedValue(mockError);
     

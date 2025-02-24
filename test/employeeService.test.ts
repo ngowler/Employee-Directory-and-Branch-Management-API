@@ -143,7 +143,7 @@ describe("Employee Service", () => {
         });
 
         it("should handle repository error", async () => {
-            const mockError = new Error("Repository error");
+            const mockError: Error = new Error("Repository error");
 
             (getDocumentById as jest.Mock).mockRejectedValue(mockError);
 
@@ -206,7 +206,7 @@ describe("Employee Service", () => {
         it("should handle repository error", async () => {
             const mockFieldName: string = "department";
             const mockFieldValue: string = "nonexistent";
-            const mockError = new Error("Repository error");
+            const mockError: Error = new Error("Repository error");
 
             (getDocumentsByFieldValue as jest.Mock).mockRejectedValue(mockError);
 
