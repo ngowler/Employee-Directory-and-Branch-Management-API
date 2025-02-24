@@ -131,7 +131,7 @@ describe("Error Handler Middleware", () => {
     });
 
     it("should handle null errors", () => {
-        const testError = null;
+        const testError: Error | null = null;
 
         errorHandler(
             testError,
