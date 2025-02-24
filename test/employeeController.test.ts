@@ -44,7 +44,7 @@ describe("Employeee Controller", () => {
         });
 
         it("should handle error scenario", async () => {
-            const errorMessage = "Error creating employee";
+            const errorMessage: string = "Error creating employee";
             (employeeService.createEmployee as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
             await employeeController.createEmployee(
@@ -81,7 +81,7 @@ describe("Employeee Controller", () => {
         });
 
         it("should handle error scenario", async () => {
-            const errorMessage = "Error retrieving employees";
+            const errorMessage: string = "Error retrieving employees";
             (employeeService.getAllEmployees as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
             await employeeController.getAllEmployees(

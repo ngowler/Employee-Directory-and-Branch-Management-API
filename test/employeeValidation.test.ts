@@ -10,10 +10,13 @@ import {
     from "../src/api/v1/validations/employeeValidation";
 
 describe("validate function for employees", () => {
+    interface Data {
+        [key: string]: string | Date;
+    }
 
     describe("postEmployeeSchema", () => {
         it("should not throw an error for valid employee data", () => {
-            const data = {
+            const data: Data = {
                 name: "John Doe",
                 position: "Manager",
                 department: "Sales",
@@ -26,7 +29,7 @@ describe("validate function for employees", () => {
         });
 
         it("should throw an error for missing name", () => {
-            const data = {
+            const data: Data = {
                 position: "Manager",
                 department: "Sales",
                 email: "john.doe@example.com",
@@ -37,7 +40,7 @@ describe("validate function for employees", () => {
         });
 
         it("should throw an error for empty name", () => {
-            const data = {
+            const data: Data = {
                 name: "",
                 position: "Manager",
                 department: "Sales",
@@ -51,24 +54,24 @@ describe("validate function for employees", () => {
 
     describe("getEmployeeByIdSchema", () => {
         it("should not throw an error for valid ID", () => {
-            const data = { id: "1" };
+            const data: Data = { id: "1" };
             expect(() => validate(getEmployeeByIdSchema, data)).not.toThrow();
         });
 
         it("should throw an error for missing ID", () => {
-            const data = {};
+            const data: Data = {};
             expect(() => validate(getEmployeeByIdSchema, data)).toThrow("ID is required");
         });
 
         it("should throw an error for empty ID", () => {
-            const data = { id: "" };
+            const data: Data = { id: "" };
             expect(() => validate(getEmployeeByIdSchema, data)).toThrow("Employee ID cannot be empty");
         });
     });
 
     describe("putEmployeeSchema", () => {
         it("should not throw an error for valid employee data", () => {
-            const data = {
+            const data: Data = {
                 id: "1",
                 name: "John Doe",
                 position: "Manager",
@@ -82,7 +85,7 @@ describe("validate function for employees", () => {
         });
 
         it("should throw an error for missing ID", () => {
-            const data = {
+            const data: Data = {
                 name: "John Doe",
                 position: "Manager",
                 department: "Sales",
@@ -94,7 +97,7 @@ describe("validate function for employees", () => {
         });
 
         it("should throw an error for empty ID", () => {
-            const data = {
+            const data: Data = {
                 id: "",
                 name: "John Doe",
                 position: "Manager",
@@ -109,51 +112,51 @@ describe("validate function for employees", () => {
 
     describe("deleteEmployeeSchema", () => {
         it("should not throw an error for valid ID", () => {
-            const data = { id: "1" };
+            const data: Data = { id: "1" };
             expect(() => validate(deleteEmployeeSchema, data)).not.toThrow();
         });
 
         it("should throw an error for missing ID", () => {
-            const data = {};
+            const data: Data = {};
             expect(() => validate(deleteEmployeeSchema, data)).toThrow("ID is required");
         });
 
         it("should throw an error for empty ID", () => {
-            const data = { id: "" };
+            const data: Data = { id: "" };
             expect(() => validate(deleteEmployeeSchema, data)).toThrow("Employee ID cannot be empty");
         });
     });
 
     describe("getEmployeesByBranchSchema", () => {
         it("should not throw an error for valid branch ID", () => {
-            const data = { branchId: "1" };
+            const data: Data = { branchId: "1" };
             expect(() => validate(getEmployeesByBranchSchema, data)).not.toThrow();
         });
 
         it("should throw an error for missing branch ID", () => {
-            const data = {};
+            const data: Data = {};
             expect(() => validate(getEmployeesByBranchSchema, data)).toThrow("Branch ID is required");
         });
 
         it("should throw an error for empty branch ID", () => {
-            const data = { branchId: "" };
+            const data: Data = { branchId: "" };
             expect(() => validate(getEmployeesByBranchSchema, data)).toThrow("Branch ID cannot be empty");
         });
     });
 
     describe("getEmployeesByDepartmentSchema", () => {
         it("should not throw an error for valid department", () => {
-            const data = { department: "Sales" };
+            const data: Data = { department: "Sales" };
             expect(() => validate(getEmployeesByDepartmentSchema, data)).not.toThrow();
         });
 
         it("should throw an error for missing department", () => {
-            const data = {};
+            const data: Data = {};
             expect(() => validate(getEmployeesByDepartmentSchema, data)).toThrow("Department is required");
         });
 
         it("should throw an error for empty department", () => {
-            const data = { department: "" };
+            const data: Data = { department: "" };
             expect(() => validate(getEmployeesByDepartmentSchema, data)).toThrow
         });
     });

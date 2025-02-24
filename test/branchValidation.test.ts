@@ -14,7 +14,7 @@ describe("validate function for branches", () => {
 
     describe("postBranchSchema", () => {
         it("should not throw an error for valid branch data", () => {
-            const data = {
+            const data: Data = {
                 name: "Main Branch",
                 address: "123 Main St",
                 phone: "123-456-7890",
@@ -24,7 +24,7 @@ describe("validate function for branches", () => {
         });
 
         it("should throw an error for missing name", () => {
-            const data = {
+            const data: Data = {
                 address: "123 Main St",
                 phone: "123-456-7890",
             };
@@ -32,7 +32,7 @@ describe("validate function for branches", () => {
         });
 
         it("should throw an error for empty name", () => {
-            const data = {
+            const data: Data = {
                 name: "",
                 address: "123 Main St",
                 phone: "123-456-7890",
