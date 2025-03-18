@@ -4,3 +4,5 @@ dist/
 .vscode/
 
 firebase-service-account.ci.json
+
+.env
