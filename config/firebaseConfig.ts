@@ -15,6 +15,7 @@ import {
 } from "firebase-admin/app";
 import { getFirestore, Firestore } from "firebase-admin/firestore";
 import { getAuth, Auth } from "firebase-admin/auth";
+import { EnvironmentConfigurationError } from "../src/api/v1/errors/errors"
 
 /**
  * Retrieves Firebase configuration from environment variables
@@ -34,9 +35,10 @@ function getFirebaseConfig(): AppOptions {
         !FIREBASE_CLIENT_EMAIL ||
         !FIREBASE_PRIVATE_KEY
     ) {
-        // You could definitely create a custom error to use here
-        throw new Error(
-            "Missing Firebase configuration. Please check your environment variables."
+        throw new EnvironmentConfigurationError(
+            "Missing Firebase configuration. Please check your environment variables.",
+            "FIREBASE_CONFIG_ERROR",
+            400
         );
     }
 
