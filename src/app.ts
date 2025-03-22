@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import morgan from "morgan";
 import helmet from "helmet";
+import cors, { CorsOptions } from "cors";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,6 +15,11 @@ const app: Express = express();
 app.use(express.json());
 
 app.use(helmet());
+
+const corsOptions: CorsOptions = {
+    origin: process.env.TRUSTED_ORIGIN ? [process.env.TRUSTED_ORIGIN] : [],
+};  
+app.use(cors(corsOptions));
 
 setupSwagger(app);
 
