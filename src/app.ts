@@ -1,15 +1,19 @@
 import express, { Express } from "express";
-import setupSwagger from "../config/swagger";
 import morgan from "morgan";
 import dotenv from "dotenv";
-import employeeRoutes from "./api/v1/routes/employeeRoutes"
-import branchRoutes from "./api/v1/routes/branchRoutes"
-import errorHandler from "./api/v1/middleware/errorHandler";
 
 dotenv.config();
 
+import setupSwagger from "../config/swagger";
+import employeeRoutes from "./api/v1/routes/employeeRoutes"
+import branchRoutes from "./api/v1/routes/branchRoutes"
+import errorHandler from "./api/v1/middleware/errorHandler";
+import helmetConfig from "./api/v1/middleware/helmetConfig";
+
 const app: Express = express();
 app.use(express.json());
+
+helmetConfig(app);
 
 setupSwagger(app);
 

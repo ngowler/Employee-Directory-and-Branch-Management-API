@@ -103,3 +103,25 @@ export class EnvironmentConfigurationError extends Error {
         this.statusCode = statusCode;
     }
 }
+
+export class HelmetConfigurationError extends Error {
+    code: string;
+    statusCode: number;
+    
+    /**
+     * Creates a new HelmetConfigurationError instance.
+     * @param {string} message - The error message.
+     * @param {string} code - The error code.
+     * @param {number} code - The the http response code.
+      */
+    constructor(
+        message: string,
+        code: string,
+        statusCode: number = HTTP_STATUS.INTERNAL_SERVER_ERROR
+    ) {
+        super(message);
+        this.name = "HelmetConfigurationError";
+        this.code = code;
+        this.statusCode = statusCode;
+    }
+}
