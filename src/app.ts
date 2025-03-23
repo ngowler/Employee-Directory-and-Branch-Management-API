@@ -26,6 +26,9 @@ setupSwagger(app);
 app.use(morgan("combined"));
 
 /**
+ * @route GET /health
+ * @description Check if the server is healthy.
+ *
  * @openapi
  * /health:
  *   get:
@@ -34,6 +37,11 @@ app.use(morgan("combined"));
  *     responses:
  *       200:
  *         description: Server is healthy
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Server is healthy
  */
 app.get('/health', (req, res) => {
     res.status(200).send('Server is healthy');

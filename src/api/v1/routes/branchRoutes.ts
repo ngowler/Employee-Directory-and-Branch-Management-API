@@ -24,11 +24,27 @@ const router: Router = express.Router();
  * @openapi
  * /branch:
  *   post:
- *     summary: Creates a new branch
+ *     summary: Create a new branch
  *     tags: [Branch]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Branch'
  *     responses:
  *       201:
- *         description: Creates a new branch
+ *         description: Branch created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Branch'
+ *       400:
+ *         description: Invalid input provided
+ *       500:
+ *         description: Server error
  */
 router.post("/", validateRequest(postBranchSchema), branchController.createBranch);
 
@@ -39,11 +55,21 @@ router.post("/", validateRequest(postBranchSchema), branchController.createBranc
  * @openapi
  * /branch:
  *   get:
- *     summary: Gets all branches
+ *     summary: Retrieve a list of branches
  *     tags: [Branch]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Gets all branches
+ *         description: A list of branches
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Branches'
+ *       500:
+ *         description: Server error
  */
 router.get("/", branchController.getAllBranches);
 
@@ -54,11 +80,28 @@ router.get("/", branchController.getAllBranches);
  * @openapi
  * /branch/{id}:
  *   get:
- *     summary: Gets a branch by id
+ *     summary: Get branch by id
  *     tags: [Branch]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the branch to retrieve
  *     responses:
  *       200:
- *         description: Gets a branch by id
+ *         description: Branch details matching the ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Branch'
+ *       404:
+ *         description: Branch not found with the specified ID
+ *       500:
+ *         description: Server error
  */
 router.get("/:id", validateRequest(getBranchByIdSchema), branchController.getBranchById);
 
@@ -69,26 +112,64 @@ router.get("/:id", validateRequest(getBranchByIdSchema), branchController.getBra
  * @openapi
  * /branch/{id}:
  *   put:
- *     summary: Updates a branch
+ *     summary: Update an branch by ID
  *     tags: [Branch]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the branch to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Branch'
  *     responses:
  *       200:
- *         description: Updates a branch
+ *         description: Branch updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Branch'
+ *       400:
+ *         description: Invalid input provided
+ *       404:
+ *         description: Branch not found with the specified ID
+ *       500:
+ *         description: Server error
  */
 router.put("/:id", validateRequest(putBranchSchema), branchController.updateBranch);
 
 /**
- * @route DELETE /:id
+ * @route DELETE /branch/:id
  * @description Delete a branch.
  *
  * @openapi
  * /branch/{id}:
  *   delete:
- *     summary: Deletes a branch
+ *     summary: Delete a branch by ID
  *     tags: [Branch]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the branch to delete
  *     responses:
  *       200:
- *         description: Deletes a branch
+ *         description: Branch deleted successfully
+ *       404:
+ *         description: Branch not found with the specified ID
+ *       500:
+ *         description: Server error
  */
 router.delete("/:id", validateRequest(deleteBranchSchema), branchController.deleteBranch);
 

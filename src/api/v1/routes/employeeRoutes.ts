@@ -26,11 +26,27 @@ const router: Router = express.Router();
  * @openapi
  * /employee:
  *   post:
- *     summary: Creates a new employee
+ *     summary: Create a new employee
  *     tags: [Employee]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Employee'
  *     responses:
  *       201:
- *         description: Creates a new employee
+ *         description: Employee created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Employee'
+ *       400:
+ *         description: Invalid input provided
+ *       500:
+ *         description: Server error
  */
 router.post("/", validateRequest(postEmployeeSchema), employeeController.createEmployee);
 
@@ -41,11 +57,21 @@ router.post("/", validateRequest(postEmployeeSchema), employeeController.createE
  * @openapi
  * /employee:
  *   get:
- *     summary: Gets all employees
+ *     summary: Retrieve a list of employees
  *     tags: [Employee]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Gets all employees
+ *         description: A list of employees
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Employees'
+ *       500:
+ *         description: Server error
  */
 router.get("/", employeeController.getAllEmployees);
 
@@ -56,11 +82,28 @@ router.get("/", employeeController.getAllEmployees);
  * @openapi
  * /employee/{id}:
  *   get:
- *     summary: Gets an employee by id
+ *     summary: Get employee by id
  *     tags: [Employee]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the employee to retrieve
  *     responses:
  *       200:
- *         description: Gets an employee by id
+ *         description: Employee details matching the ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Employee'
+ *       404:
+ *         description: Employee not found with the specified ID
+ *       500:
+ *         description: Server error
  */
 router.get("/:id", validateRequest(getEmployeeByIdSchema), employeeController.getEmployeeById);
 
@@ -71,58 +114,132 @@ router.get("/:id", validateRequest(getEmployeeByIdSchema), employeeController.ge
  * @openapi
  * /employee/{id}:
  *   put:
- *     summary: Updates an employee
+ *     summary: Update an employee by ID
  *     tags: [Employee]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the employee to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Employee'
  *     responses:
  *       200:
- *         description: Updates an employee
+ *         description: Employee updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Employee'
+ *       400:
+ *         description: Invalid input provided
+ *       404:
+ *         description: Employee not found with the specified ID
+ *       500:
+ *         description: Server error
  */
 router.put("/:id", validateRequest(putEmployeeSchema), employeeController.updateEmployee);
 
 /**
- * @route DELETE /:id
- * @description Delete an employee.
+ * @route DELETE /employee/:id
+ * @description Delete a employee.
  *
  * @openapi
  * /employee/{id}:
  *   delete:
- *     summary: Deletes an employee
+ *     summary: Delete a employee by ID
  *     tags: [Employee]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the employee to delete
  *     responses:
  *       200:
- *         description: Deletes an employee
+ *         description: Employee deleted successfully
+ *       404:
+ *         description: Employee not found with the specified ID
+ *       500:
+ *         description: Server error
  */
 router.delete("/:id", validateRequest(deleteEmployeeSchema), employeeController.deleteEmployee);
 
-//Additional Endpoints
-
 /**
- * @route GET /employee/:branchId
+ * @route GET /employee/branch/:branchId
  * @description Get employees by branchId.
  *
  * @openapi
  * /employee/branch/{branchId}:
  *   get:
- *     summary: Gets an employee by branch
+ *     summary: Get employees by branch ID
  *     tags: [Employee]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: branchId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the branch to retrieve employees from
  *     responses:
  *       200:
- *         description: Gets an employee by branch
+ *         description: Employees retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Employee'
+ *       404:
+ *         description: No employees found for the specified branch ID
+ *       500:
+ *         description: Server error
  */
 router.get("/branch/:branchId", validateRequest(getEmployeesByBranchSchema), employeeController.getEmployeesByBranch);
 
 /**
- * @route GET /employee/:department
+ * @route GET /employee/department/:department
  * @description Get employees by department.
  *
  * @openapi
  * /employee/department/{department}:
  *   get:
- *     summary: Gets an employee by department
+ *     summary: Get employees by department
  *     tags: [Employee]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: department
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Name of the department to retrieve employees from
  *     responses:
  *       200:
- *         description: Gets an employee by department
+ *         description: Employees retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Employee'
+ *       404:
+ *         description: No employees found for the specified department
+ *       500:
+ *         description: Server error
  */
 router.get("/department/:department", validateRequest(getEmployeesByDepartmentSchema), employeeController.getEmployeesByDepartment);
 
