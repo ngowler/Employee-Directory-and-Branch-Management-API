@@ -69,7 +69,7 @@ router.post("/", validateRequest(postEmployeeSchema), employeeController.createE
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Employees'
+ *                 $ref: '#/components/schemas/Employee'
  *       500:
  *         description: Server error
  */

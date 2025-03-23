@@ -67,7 +67,7 @@ router.post("/", validateRequest(postBranchSchema), branchController.createBranc
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Branches'
+ *                 $ref: '#/components/schemas/Branch'
  *       500:
  *         description: Server error
  */
