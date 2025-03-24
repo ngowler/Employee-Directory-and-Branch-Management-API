@@ -1,6 +1,6 @@
 import swaggerJsDoc from "swagger-jsdoc";
 
-const serverUrl =
+const serverUrl: string =
     process.env.SWAGGER_SERVER_URL || "http://localhost:3000/api/v1";
 
 const swaggerOptions: swaggerJsDoc.Options = {

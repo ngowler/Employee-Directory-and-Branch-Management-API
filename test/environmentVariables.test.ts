@@ -1,6 +1,5 @@
 import { CorsOptions } from "cors";
-import { Server } from "http";
-import { cert, AppOptions } from "firebase-admin/app";
+import { cert } from "firebase-admin/app";
 import { EnvironmentConfigurationError } from "../src/api/v1/errors/errors";
 import swaggerJsDoc from "swagger-jsdoc";
 
@@ -10,10 +9,6 @@ describe("Environment Variables Integration Tests", () => {
     beforeEach(() => {
         jest.resetModules();
         process.env = { ...originalEnv };
-    });
-
-    afterEach(() => {
-        process.env = originalEnv;
     });
 
     it("should correctly configure CORS with TRUSTED_ORIGIN", () => {
@@ -31,9 +26,9 @@ describe("Environment Variables Integration Tests", () => {
         delete process.env.FIREBASE_CLIENT_EMAIL;
         delete process.env.FIREBASE_PRIVATE_KEY;
 
-        const getFirebaseConfig = () => {
+        const getFirebaseConfig = (): { credential: ReturnType<typeof cert> } => {
             const { FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY } = process.env;
-
+        
             if (!FIREBASE_PROJECT_ID || !FIREBASE_CLIENT_EMAIL || !FIREBASE_PRIVATE_KEY) {
                 throw new EnvironmentConfigurationError(
                     "Missing Firebase configuration. Please check your environment variables.",
@@ -41,13 +36,17 @@ describe("Environment Variables Integration Tests", () => {
                     400
                 );
             }
-
-            const serviceAccount = {
+        
+            const serviceAccount: {
+                projectId: string;
+                clientEmail: string;
+                privateKey: string;
+            } = {
                 projectId: FIREBASE_PROJECT_ID,
                 clientEmail: FIREBASE_CLIENT_EMAIL,
                 privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
             };
-
+        
             return {
                 credential: cert(serviceAccount),
             };

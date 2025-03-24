@@ -19,7 +19,7 @@ app.use(helmet());
 
 const corsOptions: CorsOptions = {
     origin: (origin, callback) => {
-        const trustedOrigins = process.env.TRUSTED_ORIGIN ? [process.env.TRUSTED_ORIGIN] : [];
+        const trustedOrigins: string[] = process.env.TRUSTED_ORIGIN ? [process.env.TRUSTED_ORIGIN] : [];
         if (!origin || trustedOrigins.includes(origin)) {
             callback(null, true);
         } else {
