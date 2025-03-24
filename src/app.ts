@@ -10,6 +10,7 @@ import setupSwagger from "../config/swagger";
 import employeeRoutes from "./api/v1/routes/employeeRoutes"
 import branchRoutes from "./api/v1/routes/branchRoutes"
 import errorHandler from "./api/v1/middleware/errorHandler";
+import { CorsError } from "./api/v1/errors/errors";
 
 const app: Express = express();
 app.use(express.json());
@@ -17,8 +18,15 @@ app.use(express.json());
 app.use(helmet());
 
 const corsOptions: CorsOptions = {
-    origin: process.env.TRUSTED_ORIGIN ? [process.env.TRUSTED_ORIGIN] : [],
-};  
+    origin: (origin, callback) => {
+        const trustedOrigins = process.env.TRUSTED_ORIGIN ? [process.env.TRUSTED_ORIGIN] : [];
+        if (!origin || trustedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            throw new CorsError("Not allowed by CORS", "CORS_ERROR", 403);
+        }
+    },
+};
 app.use(cors(corsOptions));
 
 setupSwagger(app);

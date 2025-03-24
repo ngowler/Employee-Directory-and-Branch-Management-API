@@ -1,6 +1,5 @@
 # Employee Directory and Branch Management
 
-
 ## Project Overview
 
 This is an application to manage employees and branches.
@@ -85,7 +84,7 @@ It is useful for adding, removing, edditing, and gathering employee and branch i
 **Create Branch**
 ```typescript
 const createBranch = async () => {
-    const url = 'http://localhost:3000/branch'; // Replace with your actual Express endpoint
+    const url = 'http://localhost:3000/api/v1/branch';
     const branchData: Omit<Branch, 'id'> = {
         name: 'New Branch',
         address: '123 Main Street, Winnipeg, MB',
@@ -97,7 +96,7 @@ const createBranch = async () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer YOUR_BEARER_TOKEN', // Replace with your bearer token
+                Authorization: 'Bearer YOUR_BEARER_TOKEN',
             },
             body: JSON.stringify(branchData),
         });
@@ -119,7 +118,7 @@ createBranch();
 
 ### Sample Response
 
-**Successful Response**
+**Successful Responses**
 ```json
 {
   "id": "abc123",

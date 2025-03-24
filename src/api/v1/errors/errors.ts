@@ -103,3 +103,29 @@ export class EnvironmentConfigurationError extends Error {
         this.statusCode = statusCode;
     }
 }
+
+/**
+ * Class representing an cors error.
+ * Extends the built-in Error class to include an error code.
+ */
+export class CorsError extends Error {
+    code: string;
+    statusCode: number;
+
+    /**
+     * Creates a new CorsError instance.
+     * @param {string} message - The error message.
+     * @param {string} code - The error code.
+     * @param {number} code - The the http response code.
+     */
+    constructor(
+        message: string,
+        code: string,
+        statusCode: number = HTTP_STATUS.FORBIDDEN
+    ) {
+        super(message);
+        this.name = "CorsError";
+        this.code = code;
+        this.statusCode = statusCode;
+    }
+}
