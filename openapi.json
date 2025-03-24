@@ -1,0 +1,634 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Employee Directory and Branch Management API Documentation",
+    "version": "1.0.0",
+    "description": "This is the API documentation for the Employee Directory and Branch Management applciation."
+  },
+  "server": [
+    {
+      "url": "http://localhost:3000/api/v1",
+      "description": "Local Server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Branch": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for a branch"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the branch"
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the branch"
+          },
+          "phone": {
+            "type": "string",
+            "description": "The phone number of the branch"
+          }
+        }
+      },
+      "Employee": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for an employee"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the employee"
+          },
+          "position": {
+            "type": "string",
+            "description": "The position held by the employee"
+          },
+          "department": {
+            "type": "string",
+            "description": "The department of the employee"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the employee"
+          },
+          "phone": {
+            "type": "string",
+            "description": "The phone number of the employee"
+          },
+          "branchId": {
+            "type": "string",
+            "description": "The identifier for the branch associated with the employee"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Indicates whether the operation was successful ('success' or 'error')"
+          },
+          "data": {
+            "type": "object",
+            "nullable": true,
+            "description": "Optional payload returned upon a successful operation"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "description": "Informational message about the operation result"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true,
+            "description": "Error message, provided in case of a failure"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional error code for client-side error handling"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Indicates if the operation was successful ('success')"
+          },
+          "data": {
+            "type": "object",
+            "nullable": true,
+            "description": "Optional payload returned on successful operations"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional success message"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Indicates that the operation failed ('error')"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message describing what went wrong"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional error code for client-side error handling"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/branch": {
+      "post": {
+        "summary": "Create a new branch",
+        "tags": [
+          "Branch"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Branch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Branch created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Branch"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input provided"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve a list of branches",
+        "tags": [
+          "Branch"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of branches",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Branch"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/branch/{id}": {
+      "get": {
+        "summary": "Get branch by id",
+        "tags": [
+          "Branch"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the branch to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Branch details matching the ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Branch"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Branch not found with the specified ID"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an branch by ID",
+        "tags": [
+          "Branch"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the branch to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Branch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Branch updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Branch"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input provided"
+          },
+          "404": {
+            "description": "Branch not found with the specified ID"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a branch by ID",
+        "tags": [
+          "Branch"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the branch to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Branch deleted successfully"
+          },
+          "404": {
+            "description": "Branch not found with the specified ID"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/employee": {
+      "post": {
+        "summary": "Create a new employee",
+        "tags": [
+          "Employee"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Employee"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Employee created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input provided"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve a list of employees",
+        "tags": [
+          "Employee"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Employee"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/employee/{id}": {
+      "get": {
+        "summary": "Get employee by id",
+        "tags": [
+          "Employee"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the employee to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee details matching the ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee not found with the specified ID"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an employee by ID",
+        "tags": [
+          "Employee"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the employee to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Employee"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Employee updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input provided"
+          },
+          "404": {
+            "description": "Employee not found with the specified ID"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a employee by ID",
+        "tags": [
+          "Employee"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the employee to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee deleted successfully"
+          },
+          "404": {
+            "description": "Employee not found with the specified ID"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/employee/branch/{branchId}": {
+      "get": {
+        "summary": "Get employees by branch ID",
+        "tags": [
+          "Employee"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "branchId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the branch to retrieve employees from"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employees retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Employee"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No employees found for the specified branch ID"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/employee/department/{department}": {
+      "get": {
+        "summary": "Get employees by department",
+        "tags": [
+          "Employee"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "department",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Name of the department to retrieve employees from"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employees retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Employee"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No employees found for the specified department"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
