@@ -199,3 +199,111 @@ I don't think there is for this particular function.
 
 -   How does this enhance your understanding of the overall project?
 It shows me how I can handle all sorts of different errors caught all over the api and give the proper response to each of them.
+
+# ----- Assignment 5 -----
+
+## Scenario 1: Environment Variable Management
+
+-   **Breakpoint Location:** firebaseConfig.ts
+-   **Objective:** I want to see that my environment variables get set correctly
+
+### Debugger Observations
+
+-   **Variable States:**
+FIREBASE_CLIENT_EMAIL = 'correct email'
+FIREBASE_PRIVATE_KEY = 'corect private key'
+FIREBASE_PROJECT_ID = 'correct project id'
+
+-   **Call Stack:**
+The program is gaining access to the firestore database.
+
+-   **Behavior:**
+The route will successfuly connect and proceed with the business logic
+
+### Analysis
+
+-   What did you learn from this scenario?
+I learned how to use environment variables to protect sensitive data
+
+-   Did you observe any unexpected behavior? If so, what might be the cause?
+No, I was hoping to see the correct values and I did.
+
+-   Are there areas for improvement or refactoring in this part of the code?
+I dont believe so.
+
+-   How does this enhance your understanding of the overall project?
+It demonstrates some of the situations where I might want to make use of environment variables and how to use them.
+
+## Scenario 2: Helmet.js Integration
+
+-   **Breakpoint Location:** app.ts, line 57
+-   **Objective:** I want to see what headers helmet adds
+
+### Debugger Observations
+
+-   **Variable States:**
+- headers = {
+  "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+  "cross-origin-opener-policy": "same-origin",
+  "cross-origin-resource-policy": "same-origin",
+  "origin-agent-cluster": "?1",
+  "referrer-policy": "no-referrer",
+  "strict-transport-security": "max-age=31536000; includeSubDomains",
+  "x-content-type-options": "nosniff",
+  "x-dns-prefetch-control": "off",
+  "x-download-options": "noopen",
+  "x-frame-options": "SAMEORIGIN",
+  "x-permitted-cross-domain-policies": "none",
+  "x-xss-protection": "0",
+  vary: "Origin",
+}
+
+-   **Call Stack:** 
+The health endpoint was just called
+
+-   **Behavior:** 
+App is about to start listening to the other application endpoints.
+
+### Analysis
+
+-   What did you learn from this scenario?
+There are a ton of headers helmet puts on by default. 
+
+-   Did you observe any unexpected behavior? If so, what might be the cause?
+No, I knew it would put a lot of headers on and I even recognized some of the headers.
+
+-   Are there areas for improvement or refactoring in this part of the code?
+Other than me removing the get headers function, not really.
+
+-   How does this enhance your understanding of the overall project?
+Now I know that these headers will be applied to all my endpoints.
+
+## Scenario 3: OpenAPI Documentation Integration
+
+-   **Breakpoint Location:** swagger.ts, line 7
+-   **Objective:** make sure all my routes have their documentation generated
+
+### Debugger Observations
+
+-   **Variable States:**
+swaggerDocs.paths = collection of all my paths 
+
+-   **Call Stack:**
+Documentation is being generated and hosted at the api-docs endpoint.
+
+-   **Behavior:**
+The program will continue to be set up.
+
+### Analysis
+
+-   What did you learn from this scenario?
+I learned that all my documentation is being seen and generated.
+
+-   Did you observe any unexpected behavior? If so, what might be the cause?
+No, it was all generated
+
+-   Are there areas for improvement or refactoring in this part of the code?
+Maybe including my health endpoint documentation.
+
+-   How does this enhance your understanding of the overall project?
+It gives me insight on how to configure swagger.
