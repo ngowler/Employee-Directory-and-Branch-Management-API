@@ -4,7 +4,7 @@ import { EnvironmentConfigurationError } from "../src/api/v1/errors/errors";
 import swaggerJsDoc from "swagger-jsdoc";
 
 describe("Environment Variables Integration Tests", () => {
-    const originalEnv = process.env;
+    const originalEnv: NodeJS.ProcessEnv = process.env;
 
     beforeEach(() => {
         jest.resetModules();

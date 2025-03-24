@@ -4,7 +4,7 @@ import { CorsOptions } from "cors";
 import app from "../src/app";
 
 describe("CORS and Helmet.js Integration Tests", () => {
-    const originalEnv = process.env;
+    const originalEnv: NodeJS.ProcessEnv = process.env;
 
     beforeEach(() => {
         jest.resetModules();
